@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# Arithmetic Calculator
+# Takes two numbers from user, performs + - * /
+# Handles division by zero safely
+
 echo "=== Arithmetic Calculator ==="
 
 read -p "Enter first number: " num1

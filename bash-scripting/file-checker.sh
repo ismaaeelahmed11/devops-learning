@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# File Permission Checker
+# Checks if a file exists, then tests read/write/execute permissions
+# Exits with error if file not found
+
 echo "==File Checker=="
 echo ""
 
