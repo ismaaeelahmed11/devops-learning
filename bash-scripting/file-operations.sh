@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# File Operations Script
+# Creates a directory, creates a file, writes date into it
+# Displays file contents
+
 echo "=== File Operations Script ==="
 echo ""
 
