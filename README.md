@@ -20,16 +20,26 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 - Repo management, branching, merging, stashing, undoing changes
 - [View Git practice repo](https://github.com/ismaaeelahmed11/git-labs)
 
+### Networking
+- OSI model, DNS, routing, subnetting, troubleshooting
+- Deployed NGINX on EC2, pointed custom domain via Cloudflare DNS
+- [View Networking module](networking/)
+
+### Docker & Containers
+- Building images from Dockerfiles, multi-stage builds
+- Docker Compose for multi-container apps (Flask + Redis)
+- Pushing images to Docker Hub and Amazon ECR
+- [View Docker module](docker/)
+
 ---
 
 ## Other Repositories
 - [Git Labs](https://github.com/ismaaeelahmed11/git-labs) — Hands-on Git exercises and troubleshooting
+- [Flask-MySQL Practice](https://github.com/ismaaeelahmed11/flask-mysql-practice) — Docker sandbox with Flask + MySQL
 
 ---
 
 ## What's Next
-- Networking Fundamentals
-- Docker & Containers
 - AWS Cloud
 - Terraform & Infrastructure as Code
 - CI/CD Pipelines
