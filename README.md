@@ -31,6 +31,12 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 - Pushing images to Docker Hub and Amazon ECR
 - [View Docker module](docker/)
 
+### AWS Cloud
+- Custom VPC with public/private subnets, Internet Gateway, NAT Gateway
+- EC2 instances with security groups and user data automation
+- Application Load Balancer with target groups and health checks
+- [View AWS module](aws/)
+
 ---
 
 ## Other Repositories
@@ -40,7 +46,6 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 ---
 
 ## What's Next
-- AWS Cloud
 - Terraform & Infrastructure as Code
 - CI/CD Pipelines
 - Kubernetes
