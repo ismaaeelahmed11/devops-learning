@@ -37,6 +37,12 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 - Application Load Balancer with target groups and health checks
 - [View AWS module](aws/)
 
+### Terraform & Infrastructure as Code
+- Deployed WordPress on EC2 using Terraform
+- Automated EC2 configuration with cloud-init
+- Variables, outputs, modules, state management
+- [View Terraform module](terraform/)
+
 ---
 
 ## Other Repositories
@@ -46,7 +52,6 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 ---
 
 ## What's Next
-- Terraform & Infrastructure as Code
 - CI/CD Pipelines
 - Kubernetes
 
