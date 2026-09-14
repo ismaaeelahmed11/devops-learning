@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'cicd/task-1/**'
-pull_request:
+  pull_request:
     paths:
       - 'cicd/task-1/**'
 
