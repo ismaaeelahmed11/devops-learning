@@ -1,6 +1,6 @@
-# DevOps Learning Journey
+# DevOps Portfolio
 
-Documenting my progress through a hands-on DevOps bootcamp. Building skills in Linux, scripting, cloud, containers, and infrastructure as code.
+Hands-on projects across Linux, cloud, containers, IaC, and CI/CD. Built through a DevOps bootcamp — documented, tested, and pushed to production-style workflows.
 
 ---
 
@@ -61,4 +61,4 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 
 ---
 
-*Learning by building, not just watching.*
+*Built by doing, not just watching.*
