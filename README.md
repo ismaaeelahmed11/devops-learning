@@ -43,6 +43,11 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 - Variables, outputs, modules, state management
 - [View Terraform module](terraform/)
 
+### CI/CD
+- GitHub Actions workflows — CI (automated tests) and CD (Docker image build + push)
+- Custom actions, secrets management, manual triggers, matrix builds
+- [View CI/CD module](cicd/)
+
 ---
 
 ## Other Repositories
@@ -52,8 +57,7 @@ Documenting my progress through a hands-on DevOps bootcamp. Building skills in L
 ---
 
 ## What's Next
-- CI/CD Pipelines
-- Kubernetes
+- Kubernetes (in progress)
 
 ---
 
