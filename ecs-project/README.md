@@ -68,6 +68,55 @@ graph TB
 
 ---
 
+## The Big Four
+
+### What is this app?
+
+A minimal Go web server exposing two endpoints:
+
+- `/` — returns a welcome message
+- `/health` — returns `{"status":"ok"}`
+
+It's deliberately small. The point isn't the app — it's the **infrastructure and automation around it**. Containerised with a multi-stage Dockerfile (4.42MB scratch image), pushed to ECR, run on ECS Fargate, exposed via HTTPS through an Application Load Balancer on a custom domain.
+
+### Why this application?
+
+I chose a small Go app because:
+
+- **Go compiles to a static binary** — perfect for a `scratch` container. No OS, no shell, no package manager. 4.42MB total.
+- **Small surface area** — no frameworks, no dependencies. Just `net/http` and `encoding/json` from the standard library.
+- **Fast startup** — Fargate tasks start in seconds, no cold-start issues.
+- **Easy to test** — the `/health` endpoint is exactly what load balancers and monitoring need.
+
+The app is intentionally simple. The complexity is in the infrastructure, which is the actual learning goal.
+
+### Why ECS? Why not a VM, Vercel, or Netlify?
+
+**Why not Vercel/Netlify:** They're great for static sites and serverless functions, but they don't teach me how to run containers in production. The goal of this project was to learn ECS, ALB, networking, and IaC — not to deploy a website.
+
+**Why not a plain EC2 VM:** A VM works, but I'd be managing the OS, Docker runtime, scaling, and health checks myself. ECS Fargate handles all of that — I define the container, AWS runs it. No patching, no capacity planning.
+
+**Why ECS specifically:**
+- It's AWS-native container orchestration — a skill used in real DevOps roles
+- Fargate is serverless — no EC2 instances to manage
+- Integrates cleanly with ALB, ECR, IAM, CloudWatch
+- It's the natural step up from Docker before Kubernetes
+
+### How many users are expected?
+
+This is a demo/portfolio project, so realistically: **nobody but me and anyone reviewing it**.
+
+But architecturally, the setup is designed for scale:
+
+- **ALB** distributes traffic across tasks
+- **ECS Service** can scale from 1 task to N based on CPU/memory
+- **Multi-AZ subnets** mean the service survives an AZ failure
+- **Fargate** scales without capacity planning
+
+If traffic spiked, I'd bump `desired_count` in Terraform or add an Auto Scaling policy. The infrastructure is ready — the current config just reflects that no real users are hitting it.
+
+---
+
 ## Project Structure
 
 ```
