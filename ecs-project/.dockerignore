@@ -1,0 +1,9 @@
+.git
+.gitignore
+.github
+infra
+screenshots
+*.md
+.env
+.env.*
+README.md
