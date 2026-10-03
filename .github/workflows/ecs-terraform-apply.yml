@@ -1,11 +1,11 @@
-name: Terraform Apply
+name: ECS Terraform Apply
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'terraform/**'
+      - 'ecs-project/terraform/**'
   workflow_dispatch:
 
 permissions:
@@ -22,7 +22,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: terraform
+        working-directory: ecs-project/terraform
 
     steps:
       - name: Checkout code
