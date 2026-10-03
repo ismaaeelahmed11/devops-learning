@@ -226,6 +226,8 @@ All pipelines use **OIDC** — no static AWS keys.
 ![App pipeline success](screenshots/37-app-pipeline-success.png)
 ![Both pipelines green](screenshots/37b-ci-cd-both-pipelines-green.png)
 ![Terraform apply pipeline](screenshots/38-ci-cd-terraform-apply-detail.png)
+![Terraform plan pipeline](screenshots/41-ci-cd-terraform-plan.png)
+![Terraform destroy trigger](screenshots/42-ci-cd-terraform-destroy-trigger.png)
 
 ### Architecture
 ![Architecture diagram](screenshots/39a-architecture-mermaid.png)
