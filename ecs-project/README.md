@@ -157,14 +157,29 @@ All pipelines use **OIDC** — no static AWS keys.
 
 ## Screenshots
 
-See `screenshots/` for the full journey:
-- Local app running
-- Docker image build
-- ECR repository
-- ClickOps manual setup
-- Terraform modules and deployment
-- CI/CD pipelines passing
-- HTTPS live on custom domain
+### Local Development
+![App running locally](screenshots/01-app-running-locally.png)
+![Docker image built](screenshots/02-dockerbuildfinished-and-filesize.png)
+![Container running](screenshots/03-container-running-2-curl%20tests.png)
+
+### ClickOps Setup (Before Terraform)
+![ECS cluster](screenshots/06-ecs-cluster-created.png)
+![ALB created](screenshots/09-alb-created.png)
+![HTTPS working](screenshots/15a-https-home-page.png)
+
+### Terraform
+![Terraform init](screenshots/17-terraform-init.png)
+![VPC plan](screenshots/18-terraform-plan-vpc.png)
+![ECS apply](screenshots/31-terraform-apply-ecs.png)
+![Terraform HTTPS working](screenshots/33a-terraform-https-home.png)
+
+### CI/CD Pipelines
+![App pipeline success](screenshots/37-app-pipeline-success.png)
+![Both pipelines green](screenshots/37b-ci-cd-both-pipelines-green.png)
+![Terraform apply pipeline](screenshots/38-ci-cd-terraform-apply-detail.png)
+
+### Architecture
+![Architecture diagram](screenshots/39a-architecture-mermaid.png)
 
 ---
 
