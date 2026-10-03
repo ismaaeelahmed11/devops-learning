@@ -1,4 +1,4 @@
-# Root Terraform configuration
+## Root Terraform configuration
 
 module "vpc" {
   source   = "./modules/vpc"

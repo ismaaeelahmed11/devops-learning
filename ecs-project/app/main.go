@@ -42,3 +42,5 @@ func main() {
 		log.Fatal(err)
 	}
 }
+
+// This is a simple web server that responds to two routes:
