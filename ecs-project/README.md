@@ -231,7 +231,7 @@ All pipelines use **OIDC** — no static AWS keys.
 
 ### Architecture
 ![Architecture diagram](screenshots/39a-architecture-mermaid.png)
-
+![draw.io diagram](screenshots/39b-architecture-drawio.png)
 ---
 
 ## What I Learnt
