@@ -8,6 +8,8 @@ A Go web application deployed to AWS ECS Fargate, accessible over HTTPS via a cu
 
 ## Architecture
 
+### Mermaid Diagram
+
 ```mermaid
 graph TB
     User([User Browser])
@@ -51,6 +53,10 @@ graph TB
     OIDC -.->|trusts| IAM
 ```
 
+### draw.io Diagram
+
+![draw.io architecture diagram](screenshots/39b-architecture-drawio.png)
+
 ---
 
 ## Overview
@@ -63,7 +69,7 @@ graph TB
 - **Load Balancing:** Application Load Balancer with HTTP → HTTPS redirect
 - **SSL:** ACM certificate for `tm.ismaaeelahmed.co.uk`
 - **DNS:** Cloudflare CNAME pointing to the ALB
-- **IaC:** Terraform with 7 modules + S3 remote state with native locking
+- **IaC:** Terraform with 8 modules + S3 remote state with native locking
 - **CI/CD:** GitHub Actions with OIDC authentication (no static keys)
 
 ---
@@ -104,16 +110,14 @@ The app is intentionally simple. The complexity is in the infrastructure, which 
 
 ### How many users are expected?
 
-This is a demo/portfolio project, so realistically: **nobody but me and anyone reviewing it**.
-
-But architecturally, the setup is designed for scale:
+This is a portfolio project, so no production users. But the architecture is designed for scale:
 
 - **ALB** distributes traffic across tasks
 - **ECS Service** can scale from 1 task to N based on CPU/memory
 - **Multi-AZ subnets** mean the service survives an AZ failure
 - **Fargate** scales without capacity planning
 
-If traffic spiked, I'd bump `desired_count` in Terraform or add an Auto Scaling policy. The infrastructure is ready — the current config just reflects that no real users are hitting it.
+If real traffic hit it, I'd bump `desired_count` in Terraform or add an Auto Scaling policy. The infrastructure is ready — the current config just reflects that it's a demo.
 
 ---
 
@@ -169,7 +173,7 @@ Visit `http://localhost:8080/health` → `{"status":"ok"}`
 
 ```bash
 docker build -t ecs-project:v1 .
-docker run -p 8080:80 ecs-project:v1
+docker run -p 8080:8080 ecs-project:v1
 ```
 
 Visit `http://localhost:8080/health`
@@ -230,8 +234,9 @@ All pipelines use **OIDC** — no static AWS keys.
 ![Terraform destroy trigger](screenshots/42-ci-cd-terraform-destroy-trigger.png)
 
 ### Architecture
-![Architecture diagram](screenshots/39a-architecture-mermaid.png)
+![Mermaid diagram](screenshots/39a-architecture-mermaid.png)
 ![draw.io diagram](screenshots/39b-architecture-drawio.png)
+
 ---
 
 ## What I Learnt
