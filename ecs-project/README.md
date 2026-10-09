@@ -8,7 +8,9 @@ A Go web application deployed to AWS ECS Fargate, accessible over HTTPS via a cu
 
 ## Architecture
 
-### Mermaid Diagram
+![draw.io architecture diagram](screenshots/39b-architecture-drawio.png)
+
+### Mermaid Version
 
 ```mermaid
 graph TB
@@ -52,10 +54,6 @@ graph TB
     GHA -.->|assumes via| OIDC
     OIDC -.->|trusts| IAM
 ```
-
-### draw.io Diagram
-
-![draw.io architecture diagram](screenshots/39b-architecture-drawio.png)
 
 ---
 
@@ -210,31 +208,89 @@ All pipelines use **OIDC** — no static AWS keys.
 
 ## Screenshots
 
-### Local Development
+### 1. App Running Locally
+Go app running on `localhost:8080` — both routes (`/` and `/health`) responding. Proves the app works before touching Docker or AWS.
+
 ![App running locally](screenshots/01-app-running-locally.png)
+
+### 2. Docker Image Built
+Multi-stage Docker build complete. Final image is **4.42MB** — scratch-based, no OS, no shell. Compare that to a typical Python image at 200MB+.
+
 ![Docker image built](screenshots/02-dockerbuildfinished-and-filesize.png)
+
+### 3. Container Running Locally
+The image runs as a container and serves both routes correctly. If it doesn't work here, it won't work in AWS.
+
 ![Container running](screenshots/03-container-running-2-curl%20tests.png)
 
-### ClickOps Setup (Before Terraform)
+### 4. ECS Cluster Created (ClickOps)
+Manual setup — ECS Fargate cluster created via the AWS Console. Doing it by hand first taught me what Terraform would automate later.
+
 ![ECS cluster](screenshots/06-ecs-cluster-created.png)
+
+### 5. Application Load Balancer Created (ClickOps)
+ALB configured with HTTP listener on port 80. This is the public entry point for all traffic.
+
 ![ALB created](screenshots/09-alb-created.png)
+
+### 6. HTTPS Working (ClickOps)
+Site live at `tm.ismaaeelahmed.co.uk` with a padlock. ACM certificate attached, HTTP redirecting to HTTPS. This proved the ClickOps setup worked before I tore it down.
+
 ![HTTPS working](screenshots/15a-https-home-page.png)
 
-### Terraform
+### 7. Terraform Initialised
+Backend connected to S3, AWS provider downloaded, all 8 modules loaded. State is now shared between my laptop and GitHub Actions.
+
 ![Terraform init](screenshots/17-terraform-init.png)
+
+### 8. Terraform Plan — VPC
+14 resources to create: VPC, subnets, Internet Gateway, route tables, NAT Gateway. The plan shows exactly what will happen before anything is built.
+
 ![VPC plan](screenshots/18-terraform-plan-vpc.png)
+
+### 9. Terraform Apply — ECS
+Full stack deployed via Terraform — VPC, ECR, IAM, security groups, ALB, ECS cluster, task definition, and service. All 40+ resources created in one command.
+
 ![ECS apply](screenshots/31-terraform-apply-ecs.png)
+
+### 10. HTTPS Working (Terraform)
+Same HTTPS URL as the ClickOps version — but now every resource is managed by Terraform. Rebuildable in minutes. Deletable in one command.
+
 ![Terraform HTTPS working](screenshots/33a-terraform-https-home.png)
 
-### CI/CD Pipelines
+### 11. App Pipeline Success
+GitHub Actions pipeline ran on push. Built the Docker image, tagged it with the commit SHA, pushed to ECR. Green tick — everything worked first time.
+
 ![App pipeline success](screenshots/37-app-pipeline-success.png)
+
+### 12. Both Pipelines Green
+App Build & Push and Terraform Apply — both passing. Two independent pipelines triggered by different file paths.
+
 ![Both pipelines green](screenshots/37b-ci-cd-both-pipelines-green.png)
+
+### 13. Terraform Apply Pipeline Detail
+Full step-by-step view: Checkout → Configure AWS (via OIDC) → Setup Terraform → Init → Plan → Apply → Post-deploy health check. Every step visible and passing.
+
 ![Terraform apply pipeline](screenshots/38-ci-cd-terraform-apply-detail.png)
+
+### 14. Terraform Plan Pipeline
+Terraform Plan pipeline running on a pull request. Validates code, runs `terraform fmt`, `validate`, and `plan` without applying. Catches problems before merge.
+
 ![Terraform plan pipeline](screenshots/41-ci-cd-terraform-plan.png)
+
+### 15. Terraform Destroy Trigger
+The destroy pipeline is manual-only and requires typing "destroy" to confirm. Prevents accidental teardown — good practice for production.
+
 ![Terraform destroy trigger](screenshots/42-ci-cd-terraform-destroy-trigger.png)
 
-### Architecture
+### 16. Architecture — Mermaid
+Auto-rendering diagram in the README. Easy to update, lives with the code.
+
 ![Mermaid diagram](screenshots/39a-architecture-mermaid.png)
+
+### 17. Architecture — draw.io
+The polished version. Shows VPC, subnets, ALB, ECS Fargate, ECR, ACM, IAM, and GitHub Actions flow. Used for the LinkedIn showcase.
+
 ![draw.io diagram](screenshots/39b-architecture-drawio.png)
 
 ---
