@@ -1,6 +1,6 @@
 # DevOps Portfolio
 
-Hands-on projects across Linux, cloud, containers, IaC, and CI/CD. Built through a DevOps bootcamp — documented, tested, and pushed to production-style workflows.
+Hands-on projects across Linux, cloud, containers, IaC, CI/CD, and Kubernetes. Built through a DevOps bootcamp — documented, tested, and pushed to production-style workflows.
 
 ---
 
@@ -48,16 +48,42 @@ Hands-on projects across Linux, cloud, containers, IaC, and CI/CD. Built through
 - Custom actions, secrets management, manual triggers, matrix builds
 - [View CI/CD module](cicd/)
 
+### Kubernetes
+- Pods, deployments, services, ConfigMaps, Secrets, storage, networking
+- Practiced on Kind and Killercoda clusters
+- [View Kubernetes notes](k8s/)
+
+---
+
+## Projects
+
+### ECS Project — Production-Grade Container Deployment
+- Go app, 4.42MB scratch-based container
+- Custom VPC, Application Load Balancer, HTTPS via ACM
+- 8 Terraform modules with S3 remote state + native locking
+- 4 GitHub Actions pipelines using OIDC
+- [View ECS project](ecs-project/)
+
+### EKS Project — Production-Grade Kubernetes on AWS
+- Production-grade EKS cluster (v1.31) with managed node groups
+- NGINX Ingress + CertManager for HTTPS, ExternalDNS for Cloudflare automation
+- ArgoCD for GitOps, Prometheus + Grafana for monitoring
+- Full CI/CD via GitHub Actions with OIDC (no static keys)
+- IT-Tools deployed over HTTPS at `eks.ismaaeelahmed.co.uk`
+- [View EKS project](https://github.com/ismaaeelahmed11/eks-project)
+
 ---
 
 ## Other Repositories
 - [Git Labs](https://github.com/ismaaeelahmed11/git-labs) — Hands-on Git exercises and troubleshooting
 - [Flask-MySQL Practice](https://github.com/ismaaeelahmed11/flask-mysql-practice) — Docker sandbox with Flask + MySQL
+- [EKS Project](https://github.com/ismaaeelahmed11/eks-project) — Standalone production-grade Kubernetes project
 
 ---
 
 ## What's Next
-- Kubernetes (in progress)
+- Get Hired — applying for junior DevOps roles
+- Continuing to build and document real-world infrastructure
 
 ---
 
