@@ -6,55 +6,22 @@ A Go web application deployed to AWS ECS Fargate, accessible over HTTPS via a cu
 
 ---
 
+## 🎬 Project Walkthrough
+
+Watch my 2-minute technical walkthrough covering the AWS ECS Fargate architecture, Terraform infrastructure, Docker containerisation, GitHub Actions CI/CD and troubleshooting.
+
+[![Watch the AWS ECS Fargate Project Walkthrough](https://img.youtube.com/vi/qpIZlJkWmos/hqdefault.jpg)](https://youtu.be/qpIZlJkWmos)
+
+**[▶ Watch the AWS ECS Fargate Project Walkthrough on YouTube](https://youtu.be/qpIZlJkWmos)**
+
+
+---
+
 ## Architecture
 
 ![draw.io architecture diagram](screenshots/39b-architecture-drawio.png)
 
-### Mermaid Version
-
-```mermaid
-graph TB
-    User([User Browser])
-    
-    User -->|HTTPS| CF[Cloudflare DNS<br/>tm.ismaaeelahmed.co.uk]
-    CF -->|CNAME| ALB
-    
-    subgraph AWS["AWS Cloud - eu-west-2"]
-        subgraph VPC["VPC 10.0.0.0/16"]
-            subgraph AZ1["Public Subnet - eu-west-2a<br/>10.0.0.0/24"]
-                ALB[Application Load Balancer]
-                ECS[ECS Task<br/>Go App :8080]
-            end
-            subgraph AZ2["Public Subnet - eu-west-2b<br/>10.0.1.0/24"]
-                ALB2[Application Load Balancer]
-            end
-            TG[Target Group<br/>Port 8080<br/>Health: /health]
-            ECR[(ECR Repository)]
-            ACM[ACM Certificate<br/>tm.ismaaeelahmed.co.uk]
-            CW[CloudWatch Logs]
-            IAM[IAM Roles<br/>Execution + Task]
-        end
-    end
-    
-    subgraph GitHub["GitHub"]
-        GHA[GitHub Actions]
-        OIDC[OIDC Provider]
-    end
-    
-    ALB --> TG
-    ALB2 --> TG
-    TG --> ECS
-    ECR -.->|pulls image| ECS
-    ACM -.->|SSL cert| ALB
-    ECS -.->|logs| CW
-    IAM -.->|permissions| ECS
-    
-    GHA -->|build + push| ECR
-    GHA -->|terraform apply| AWS
-    GHA -.->|assumes via| OIDC
-    OIDC -.->|trusts| IAM
-```
-
+---
 ---
 
 ## Overview
