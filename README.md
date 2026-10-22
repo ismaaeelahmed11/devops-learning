@@ -82,7 +82,6 @@ Hands-on projects across Linux, cloud, containers, IaC, CI/CD, and Kubernetes. B
 ---
 
 ## What's Next
-- Get Hired — applying for junior DevOps roles
 - Continuing to build and document real-world infrastructure
 
 ---
