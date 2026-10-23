@@ -1,139 +1,102 @@
-# DevOps Engineering | Technical Labs & Infrastructure Automation
 
-Hands-on implementations across **Linux, Bash, Git, networking, Docker, AWS, Terraform, CI/CD and Kubernetes**.
+# DevOps Engineering | Technical Implementations
 
-This repository contains practical exercises, configuration files, automation scripts and infrastructure projects developed through structured DevOps training and hands-on troubleshooting. It documents the technical foundations behind my cloud and Kubernetes engineering work.
+A collection of hands-on work across **Linux, Bash, Git, networking, Docker, AWS, Terraform, CI/CD and Kubernetes**.
 
-**[Explore my full engineering portfolio →](https://github.com/ismaaeelahmed11)**
+This repository contains configuration files, scripts, infrastructure code and technical notes from practical engineering labs. The focus is on **implementing, automating and troubleshooting systems**, with links to the work in each area.
 
----
+## Technical Labs
 
-## Repository Overview
+### 01. Linux & System Administration
 
-| Area | Work documented | Source |
-| --- | --- | --- |
-| Linux | System administration, permissions, CLI tools, Bandit challenges | [Explore](linux/) |
-| Bash | Automation scripts, file operations, backups and error handling | [Explore](bash-scripting/) |
-| Git | Branching, merging, history, recovery and repository workflows | [Explore](https://github.com/ismaaeelahmed11/git-labs) |
-| Networking | DNS, routing, subnetting and NGINX on EC2 | [Explore](networking/) |
-| Docker | Dockerfiles, multi-stage builds, Compose and registries | [Explore](docker/) |
-| AWS | VPC networking, EC2, security groups and load balancing | [Explore](aws/) |
-| Terraform | Infrastructure as code, cloud-init, modules and state | [Explore](terraform/) |
-| CI/CD | GitHub Actions, tests, container builds and workflow automation | [Explore](cicd/) |
-| Kubernetes | Workloads, services, configuration, storage and networking | [Explore](k8s/exercises/) |
+- Managed files, permissions, ownership and processes from the Linux command line.
+- Used pipes, redirection, `grep`, `sed`, `awk` and regular expressions for inspection and text processing.
+- Documented **OverTheWire Bandit levels 0–20** with commands, solutions and screenshots.
 
----
+**[Explore Linux labs](linux/)**
 
-## Technical Implementations
+### 02. Bash Scripting & Automation
 
-### 01 · Linux & System Administration
+- Wrote scripts for calculations, file operations, permission checks and backups.
+- Used variables, loops, conditionals, user input and exit codes to build repeatable workflows and handle errors.
 
-- Worked with Linux filesystem navigation, permissions, ownership and process management.
-- Used pipes, redirection, regular expressions and command-line text-processing tools.
-- Completed **OverTheWire Bandit levels 0–20**, recording commands, solutions and screenshots.
+**[Explore Bash scripts](bash-scripting/)**
 
-**[View Linux documentation →](linux/)**
+### 03. Git & Version Control
 
-### 02 · Bash Scripting & Automation
+- Worked with branching, merging, stashing, commit history and change recovery.
+- Applied Git workflows through practical repository exercises.
 
-- Developed scripts for arithmetic operations, file management, permission checks and backups.
-- Implemented user input, conditions, loops and exit-code-based error handling.
-- Used shell scripting to make recurring command-line tasks repeatable.
+**[Explore Git labs](https://github.com/ismaaeelahmed11/git-labs)**
 
-**[View Bash scripts →](bash-scripting/)**
+### 04. Networking & Connectivity
 
-### 03 · Git & Version Control
-
-- Practised branching, merging, stashing, commit inspection and undoing changes.
-- Worked with repository management and common source-control workflows.
-
-**[View Git labs →](https://github.com/ismaaeelahmed11/git-labs)**
-
-### 04 · Networking & Connectivity
-
-- Covered the OSI model, TCP/IP, DNS resolution, routing and subnetting.
-- Investigated connectivity and configuration issues.
+- Worked with the OSI model, TCP/IP, DNS, routing, subnetting and connectivity troubleshooting.
 - Deployed **NGINX on Amazon EC2** and configured a custom domain through **Cloudflare DNS**.
 
-**[View networking labs →](networking/)**
+**[Explore networking labs](networking/)**
 
-### 05 · Docker & Containerisation
+### 05. Docker & Containerisation
 
-- Created Dockerfiles and used multi-stage builds to produce container images.
-- Configured a multi-container **Flask + Redis** environment with Docker Compose.
-- Built, tagged and published images using **Docker Hub** and **Amazon ECR**.
+- Built container images using Dockerfiles and multi-stage builds.
+- Configured a **Flask + Redis** application with Docker Compose.
+- Built, tagged and pushed images to **Docker Hub** and **Amazon ECR**.
 
-**[View Docker implementations →](docker/)**
+**[Explore Docker labs](docker/)**
 
-### 06 · AWS Cloud Infrastructure
+### 06. AWS Infrastructure
 
-- Configured VPCs with public/private subnets, Internet Gateways, NAT Gateways and security groups.
-- Launched EC2 instances with automated initial configuration using user data.
-- Worked with **Application Load Balancers**, target groups and health checks.
+- Configured VPCs, public/private subnets, gateways, route tables and security groups.
+- Provisioned EC2 instances using user data and configured **Application Load Balancers**, target groups and health checks.
 
-**[View AWS labs →](aws/)**
+**[Explore AWS labs](aws/)**
 
-### 07 · Terraform & Infrastructure as Code
+### 07. Terraform & Infrastructure as Code
 
-- Provisioned a **WordPress environment on EC2** using Terraform.
-- Automated instance setup using **cloud-init**.
-- Worked with variables, outputs, modules and Terraform state management.
+- Provisioned a **WordPress environment on EC2** using Terraform and cloud-init.
+- Organised infrastructure using variables, outputs, modules and Terraform state.
 
-**[View Terraform implementations →](terraform/)**
+**[Explore Terraform labs](terraform/)**
 
-### 08 · CI/CD & GitHub Actions
+### 08. CI/CD with GitHub Actions
 
-- Created GitHub Actions workflows for automated testing and container image builds.
-- Configured Docker image publishing, manual triggers and matrix builds.
-- Worked with workflow secrets and custom actions.
+- Implemented workflows for automated tests, Docker image builds and registry publishing.
+- Configured workflow secrets, manual triggers, matrix builds and custom actions.
 
-**[View CI/CD workflows →](cicd/)**
+**[Explore CI/CD workflows](cicd/)**
 
-### 09 · Kubernetes & Workload Management
+### 09. Kubernetes & Workload Management
 
-- Deployed and configured **Pods, Deployments and Services**.
-- Worked with **ConfigMaps, Secrets, storage and Kubernetes networking**.
-- Practised orchestration using **Kind** and **Killercoda** before applying these concepts in larger Kubernetes labs.
+- Configured Pods, Deployments, Services, ConfigMaps and Secrets.
+- Worked with storage, networking and application workloads in **Kind** and **Killercoda** environments.
 
-**[View Kubernetes exercises →](k8s/exercises/)**
+**[Explore Kubernetes exercises](k8s/exercises/)**
 
 ---
 
-## Applied Engineering Projects
+## Project in This Repository
 
-These projects build on the technical implementations above. Each has its own documentation, architecture and troubleshooting evidence; my [GitHub profile](https://github.com/ismaaeelahmed11) provides the complete portfolio overview.
+### AWS ECS Fargate | Containerised Application & Infrastructure Automation
 
-### AWS ECS Fargate — Infrastructure & Deployment Automation
+Built a containerised Go application and provisioned its AWS infrastructure using **Terraform**.
 
-Containerised a Go application using a **4.42 MB multi-stage/scratch image** and provisioned its AWS environment with **eight Terraform modules**. Implemented an Application Load Balancer, HTTPS using ACM, S3 remote state and **GitHub Actions workflows using OIDC** for AWS authentication.
+- Produced a **4.42 MB** Go container image using a multi-stage build and a `scratch` runtime image.
+- Provisioned **ECS Fargate**, VPC networking and an **Application Load Balancer** using **eight Terraform modules**.
+- Configured HTTPS with **AWS Certificate Manager**, application health checks and **CloudWatch** logging.
+- Used **S3 remote Terraform state with native locking**.
+- Implemented **four GitHub Actions workflows** for image publishing and infrastructure operations, using **AWS OIDC** rather than long-lived access keys.
 
-**[Source code & documentation](ecs-project/)** · **[Video walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)**
+**[Source code & project documentation](ecs-project/)** · **[Video walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)**
 
-### AWS EKS — Kubernetes, GitOps & Monitoring
-
-Built an AWS EKS lab with **Terraform, NGINX Ingress, cert-manager, ExternalDNS, Argo CD, Prometheus and Grafana**, including deployment configuration and troubleshooting documentation.
-
-**Status:** Lab infrastructure has been destroyed to avoid ongoing costs. Deployment IAM policies require appropriate scoped permissions before redeployment.
-
-**[Project repository](https://github.com/ismaaeelahmed11/eks-project)** · **[Video walkthrough (2:29)](https://youtu.be/RDmnaTi2auE)**
-
-### Self-Managed Kubernetes — kubeadm & Cluster Operations
-
-Built a **two-node Kubernetes cluster** on Ubuntu virtual machines using **kubeadm, containerd and Calico**. Tested NGINX deployments, health probes, scaling, self-healing and rolling updates, with documented troubleshooting.
-
-**[Project repository](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)** · **[Video walkthrough (2:00)](https://youtu.be/a9hATioCGcs)**
+> The AWS lab infrastructure was destroyed after testing to avoid ongoing costs. The implementation and documentation remain available in this repository.
 
 ---
 
-## Engineering Approach
+## Related Engineering Projects
 
-My focus throughout this repository has been on **understanding system behaviour, automating repeatable work and documenting technical decisions**. The labs connect Linux and networking fundamentals with infrastructure provisioning, container delivery and Kubernetes operations.
+These projects have their own repositories, architecture diagrams and implementation documentation:
 
-This work complements my professional background in **IT Support & Operations**, where troubleshooting and systematic problem-solving are central to day-to-day work.
+- **[AWS EKS | Kubernetes, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)** — Terraform-provisioned EKS, NGINX Ingress, cert-manager, ExternalDNS, Argo CD, Prometheus and Grafana.
+- **[Self-Managed Kubernetes | kubeadm Cluster](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)** — Two-node Ubuntu cluster with containerd and Calico; deployment scaling, health checks, self-healing and rollouts.
 
----
-
-## Connect
-
-- **[GitHub engineering portfolio](https://github.com/ismaaeelahmed11)**
-- **[LinkedIn — Ismaaeel Ahmed](https://www.linkedin.com/in/ismaaeelahmed/)**
+**[View the complete engineering portfolio](https://github.com/ismaaeelahmed11)**
