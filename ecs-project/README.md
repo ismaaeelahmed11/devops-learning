@@ -1,8 +1,8 @@
-# AWS ECS Fargate — End-to-End Infrastructure & CI/CD
+# AWS ECS Fargate — End-to-End Production-Grade Infrastructure & CI/CD
 
 **AWS · Terraform · Docker · ECS Fargate · GitHub Actions · OIDC · CloudWatch**
 
-Built an **end-to-end, production-style AWS ECS Fargate deployment** for a containerised Go application, with infrastructure provisioned through Terraform and deployments automated using GitHub Actions.
+Built and deployed an **end-to-end AWS ECS Fargate environment**, applying **production-grade engineering practices** across infrastructure as code, containerisation, CI/CD, HTTPS, logging and troubleshooting.
 
 The project covers the complete delivery process: developing and containerising an application, configuring AWS infrastructure, implementing HTTPS, managing infrastructure as code, setting up CI/CD pipelines and troubleshooting deployment issues.
 
@@ -55,6 +55,36 @@ The deployment used two public subnets across two Availability Zones for the loa
 
 ---
 
+## Deployment Evidence — At a Glance
+
+These four screenshots show the main outcomes immediately. The full **43-stage evidence log** is organised by project phase in [Implementation Evidence](#implementation-evidence).
+
+### Container image — 4.42 MB
+
+A successful multi-stage Docker build produced a minimal scratch-based Go container image.
+
+![Docker multi-stage build and final image size](screenshots/02-dockerbuildfinished-and-filesize.png)
+
+### Terraform-managed ECS deployment
+
+Terraform successfully provisioned the ECS cluster, task definition and service, with the task registered to the target group.
+
+![Terraform ECS apply successful](screenshots/31-terraform-apply-ecs.png)
+
+### Application accessible over HTTPS
+
+The Go application was successfully accessed through the custom domain after rebuilding the infrastructure using Terraform.
+
+![Go application served over HTTPS from Terraform-managed infrastructure](screenshots/33a-terraform-https-home.png)
+
+### CI/CD workflows passing
+
+The GitHub Actions image build and Terraform infrastructure workflows completed successfully.
+
+![GitHub Actions app and Terraform pipelines passing](screenshots/37b-ci-cd-both-pipelines-green.png)
+
+---
+
 ## Infrastructure Overview
 
 | Component | Implementation |
@@ -78,7 +108,7 @@ The deployment used two public subnets across two Availability Zones for the loa
 | **AWS Authentication** | OIDC federation |
 | **Logging** | Amazon CloudWatch Logs |
 
-This environment demonstrates production-oriented engineering practices, but was built as a portfolio deployment rather than a commercially operated production service.
+The environment uses **production-grade engineering practices** such as modular infrastructure as code, CI/CD, OIDC authentication, HTTPS and logging. It was a time-limited portfolio deployment, not a commercially operated or fully production-validated system.
 
 ---
 
@@ -674,9 +704,9 @@ These issues demonstrated how application behaviour often depends on the surroun
 
 ## Implementation Evidence
 
-The following screenshots document the five phases of the project, including manual infrastructure deployment, Terraform provisioning, GitHub Actions automation and architecture diagrams.
+The **43 numbered evidence entries** below document the five phases of the project: local development, manual AWS deployment, Terraform provisioning, GitHub Actions and architecture. Four key screenshots are shown immediately after the architecture; their original evidence entries link to those same images rather than displaying them twice.
 
-They are retained to show what was actually configured and tested.
+The evidence records what was configured, deployed, tested and troubleshot.
 
 <details>
 <summary><strong>Phase 1 — Local Development (3 evidence entries)</strong></summary>
@@ -691,7 +721,7 @@ The Go web server running on `localhost:8080`, with both `/` and `/health` respo
 
 Successful multi-stage Docker build producing the 4.42 MB scratch-based image.
 
-![Docker Image Built](screenshots/02-dockerbuildfinished-and-filesize.png)
+[View screenshot (featured above)](screenshots/02-dockerbuildfinished-and-filesize.png)
 
 ### 3. Container Running Locally
 
@@ -875,7 +905,7 @@ Terraform plan covering ECS cluster, task definition and service.
 
 ECS resources provisioned successfully, with the application task registered to the target group.
 
-![Terraform ECS Apply](screenshots/31-terraform-apply-ecs.png)
+[View screenshot (featured above)](screenshots/31-terraform-apply-ecs.png)
 
 ### 31. Cloudflare DNS Updated
 
@@ -887,7 +917,7 @@ The CNAME record updated to point to the Terraform-managed ALB hostname.
 
 The same application successfully redeployed using Terraform-managed AWS infrastructure.
 
-![Terraform HTTPS Home](screenshots/33a-terraform-https-home.png)
+[View screenshot (featured above)](screenshots/33a-terraform-https-home.png)
 
 ![Terraform HTTPS Health](screenshots/33b-terraform-https-health.png)
 
@@ -924,7 +954,7 @@ Successful application build and ECR publishing workflow.
 
 Successful application build and Terraform Apply workflows.
 
-![CI/CD Pipelines Green](screenshots/37b-ci-cd-both-pipelines-green.png)
+[View screenshot (featured above)](screenshots/37b-ci-cd-both-pipelines-green.png)
 
 ### 38. Terraform Apply Workflow
 
@@ -1076,7 +1106,7 @@ Understanding those dependencies was as important as getting the application onl
 
 This project was completed as part of my **CoderCo DevOps Engineering programme (January–October 2026)**.
 
-It is an end-to-end, production-style AWS engineering project built using real cloud infrastructure, but it was not operated as a commercial production service.
+It is an end-to-end AWS engineering project built using real cloud infrastructure and **production-grade engineering practices**. It was not operated as a commercial production service, nor was the environment validated against every production-readiness requirement.
 
 The AWS demonstration resources were removed after completion to avoid ongoing costs.
 
@@ -1084,7 +1114,7 @@ The source code, Terraform modules, architecture diagrams, deployment workflows 
 
 ### Related engineering projects
 
-- [AWS EKS — End-to-End Kubernetes, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
+- [AWS EKS — End-to-End Production-Grade Kubernetes, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
 - [Self-Managed Kubernetes — kubeadm & Cluster Operations](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)
 - [Main DevOps Engineering Portfolio](https://github.com/ismaaeelahmed11)
 
