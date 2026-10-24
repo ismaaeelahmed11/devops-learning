@@ -1,15 +1,14 @@
-
 # DevOps Engineering | Technical Labs & Infrastructure Automation
 
 **Linux · Bash · Git · Networking · Docker · AWS · Terraform · CI/CD · Kubernetes**
 
 A collection of hands-on engineering work covering Linux administration, scripting, networking, containerisation, cloud infrastructure, CI/CD and Kubernetes.
 
-This repository documents the technical foundations behind my end-to-end AWS projects, including configuration files, automation scripts, infrastructure code and practical exercises.
+This repository documents the technical foundations behind my **end-to-end AWS projects**, including configuration files, automation scripts, infrastructure code and practical exercises.
 
-My focus has been on **building, automating and troubleshooting systems**, not just understanding the tools individually.
+My focus has been on **building, automating and troubleshooting systems**, applying production-grade engineering practices across infrastructure provisioning, deployments, security and monitoring.
 
-The repository also contains my **AWS ECS Fargate project**, where I brought these skills together to build and deploy a containerised application using Terraform, Docker, GitHub Actions and AWS.
+The repository also contains my **AWS ECS Fargate project**, where I brought these skills together to build and deploy a containerised Go application using eight Terraform modules, Docker, GitHub Actions and AWS.
 
 ---
 
@@ -27,7 +26,7 @@ Worked directly with Linux systems through command-line administration and pract
 - Practised file searching, system navigation and command-line troubleshooting.
 - Documented **OverTheWire Bandit levels 0–20**, including commands, solutions and screenshots.
 
-**[Explore Linux Labs →](linux/)**
+[**Explore Linux Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/linux)
 
 ### 02 · Bash Scripting & Automation
 
@@ -40,7 +39,7 @@ Wrote Bash scripts to automate repetitive tasks and develop confidence working d
 - Worked with user input, exit codes and command execution.
 - Used scripting logic to build repeatable workflows and handle errors.
 
-**[Explore Bash Scripts →](bash-scripting/)**
+[**Explore Bash Scripts →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/bash-scripting)
 
 ### 03 · Git & Version Control
 
@@ -54,7 +53,7 @@ Practised Git through repository exercises and version-control scenarios.
 - Practised common workflows involving branching and merging.
 - Applied Git throughout my infrastructure projects to version-control Terraform, Kubernetes manifests and automation workflows.
 
-**[Explore Git & Version Control Labs →](https://github.com/ismaaeelahmed11/git-labs)**
+[**Explore Git & Version Control Labs →**](https://github.com/ismaaeelahmed11/git-labs)
 
 ### 04 · Networking & Connectivity
 
@@ -68,7 +67,7 @@ Worked with networking fundamentals and applied them in a cloud environment.
 - Configured a custom domain through **Cloudflare DNS**.
 - Worked with network addressing and connectivity concepts later used in AWS VPC, load balancing and Kubernetes environments.
 
-**[Explore Networking Labs →](networking/)**
+[**Explore Networking Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/networking)
 
 ### 05 · Docker & Containerisation
 
@@ -84,7 +83,7 @@ Built and ran containerised applications, progressing from individual containers
 
 These skills were later applied to the AWS ECS Fargate project, where I produced a **4.42 MB Go container image** using a multi-stage Docker build.
 
-**[Explore Docker Labs →](docker/)**
+[**Explore Docker Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/docker)
 
 ### 06 · AWS Infrastructure
 
@@ -98,7 +97,7 @@ Provisioned and configured AWS resources to understand how cloud infrastructure 
 - Configured **Application Load Balancers**, target groups and health checks.
 - Worked with networking and infrastructure components later used in ECS and EKS.
 
-**[Explore AWS Labs →](aws/)**
+[**Explore AWS Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/aws)
 
 ### 07 · Terraform & Infrastructure as Code
 
@@ -112,9 +111,9 @@ Used Terraform to provision cloud resources through version-controlled configura
 - Organised infrastructure using modules.
 - Worked with Terraform state and infrastructure lifecycle management.
 
-These foundations were then applied to more complex AWS infrastructure, including an ECS Fargate deployment built using **eight Terraform modules**.
+These foundations were then applied to more complex AWS infrastructure, including an ECS Fargate deployment built using **eight Terraform modules**, S3 remote state and automated deployment workflows.
 
-**[Explore Terraform Labs →](terraform/)**
+[**Explore Terraform Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/terraform)
 
 ### 08 · CI/CD with GitHub Actions
 
@@ -127,11 +126,11 @@ Built automation workflows to understand how code changes can trigger testing, b
 - Configured workflow secrets and environment variables.
 - Worked with manual triggers and matrix builds.
 - Practised custom actions and workflow configuration.
-- Applied GitHub Actions to real AWS infrastructure and container deployment workflows.
+- Applied GitHub Actions to AWS infrastructure and container deployment workflows.
 
-In my ECS project, I implemented **four GitHub Actions workflows** for container publishing, Terraform planning, infrastructure deployment and teardown.
+In my ECS project, I implemented **four GitHub Actions workflows** for container publishing, Terraform planning, infrastructure deployment and teardown, using **AWS OIDC authentication** instead of long-lived access keys.
 
-**[Explore CI/CD Workflows →](cicd/)**
+[**Explore CI/CD Labs →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/cicd) · [**View ECS GitHub Actions Workflows →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/.github/workflows)
 
 ### 09 · Kubernetes & Workload Management
 
@@ -145,26 +144,26 @@ Worked with Kubernetes resources and container orchestration in local and browse
 - Explored Kubernetes storage and networking.
 - Practised application deployment and troubleshooting in **Kind and Killercoda** environments.
 
-These exercises provided the foundations for my later AWS EKS project and independently built kubeadm Kubernetes cluster.
+These exercises provided the foundations for my later **AWS EKS platform** and independently built **kubeadm Kubernetes cluster**.
 
-**[Explore Kubernetes Exercises →](k8s/exercises/)**
+[**Explore Kubernetes Exercises →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/k8s/exercises)
 
 ---
 
 ## Featured Project in This Repository
 
-### [AWS ECS Fargate — End-to-End Infrastructure & CI/CD](ecs-project/)
+### [AWS ECS Fargate — End-to-End Production-Grade Infrastructure & CI/CD](https://github.com/ismaaeelahmed11/devops-learning/tree/main/ecs-project)
 
-**Terraform · Docker · AWS ECS · ECR · ALB · GitHub Actions · OIDC**
+**Terraform · Docker · AWS ECS · ECR · ALB · GitHub Actions · OIDC · CloudWatch**
 
-Built and deployed an end-to-end, production-style AWS ECS Fargate environment for a containerised Go application.
+Built and deployed an end-to-end AWS ECS Fargate environment for a containerised Go application, applying **production-grade engineering practices** across infrastructure as code, containerisation, CI/CD, HTTPS, security and logging.
 
-I first deployed the application manually through the AWS Console to understand how the services connected, then rebuilt the infrastructure using Terraform and automated the deployment workflows through GitHub Actions.
+I first deployed the application manually through the AWS Console to understand how the services connected, then rebuilt the infrastructure using **eight Terraform modules** and automated deployment workflows through GitHub Actions.
 
-**Engineering implementation**
+### Engineering Implementation
 
 - Containerised a Go web application using a multi-stage Docker build, producing a **4.42 MB scratch-based image** running as a non-root user.
-- Provisioned AWS infrastructure using **eight Terraform modules**, covering networking, ECS, ECR, IAM, security groups, ACM, ALB and OIDC.
+- Provisioned AWS infrastructure using **eight Terraform modules**, covering VPC networking, ECS, ECR, IAM, security groups, ACM, ALB and OIDC.
 - Configured an **Application Load Balancer**, target group and application health checks.
 - Implemented HTTPS using **AWS Certificate Manager** and Cloudflare DNS.
 - Configured **S3 remote Terraform state with native locking**.
@@ -172,18 +171,37 @@ I first deployed the application manually through the AWS Console to understand 
 - Used **AWS OIDC authentication** rather than long-lived AWS access keys.
 - Integrated **CloudWatch Logs** for application logging and troubleshooting.
 
-**Troubleshooting**
+### Troubleshooting
 
 - Resolved an ECS container startup failure caused by privileged port configuration.
 - Fixed missing IAM permissions preventing ECS from creating CloudWatch log groups.
 - Corrected GitHub Actions workflow placement after workflows failed to trigger.
 - Resolved Terraform state-locking compatibility by aligning the CI Terraform version with the backend configuration.
+- Investigated and resolved an ALB target group conflict during Terraform provisioning.
 
-**Outcome:** Successfully deployed the Go application through a custom HTTPS domain, with Terraform-managed infrastructure, automated CI/CD and working health checks.
+**Outcome:** Successfully deployed the Go application through a custom HTTPS domain, with Terraform-managed infrastructure, automated CI/CD, working health checks and CloudWatch logging.
 
-**[Explore ECS Source Code, Architecture & Troubleshooting →](ecs-project/)**
+### Project Architecture
 
-**[▶ Watch the ECS Project Walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)**
+![AWS ECS Fargate Architecture](ecs-project/screenshots/39b-architecture-drawio.png)
+
+### Deployment Evidence
+
+**Terraform-managed ECS infrastructure**
+
+![Terraform ECS Apply](ecs-project/screenshots/31-terraform-apply-ecs.png)
+
+**Application deployed over HTTPS**
+
+![ECS Application HTTPS](ecs-project/screenshots/33a-terraform-https-home.png)
+
+**GitHub Actions pipelines passing**
+
+![ECS CI/CD Pipelines](ecs-project/screenshots/37b-ci-cd-both-pipelines-green.png)
+
+[**Explore ECS Source Code, Architecture & Troubleshooting →**](https://github.com/ismaaeelahmed11/devops-learning/tree/main/ecs-project)
+
+[**▶ Watch the ECS Project Walkthrough (2:11)**](https://youtu.be/qpIZlJkWmos)
 
 > **Deployment status:** The AWS demonstration resources were removed after completion to avoid ongoing costs. Source code, Terraform configurations, architecture diagrams, CI/CD workflows and deployment evidence remain available in the repository.
 
@@ -193,31 +211,51 @@ I first deployed the application manually through the AWS Console to understand 
 
 The following projects build on the technical foundations documented in this repository.
 
-### [AWS EKS — End-to-End Kubernetes, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
+### [AWS EKS — End-to-End Production-Grade Kubernetes, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
 
-Built an end-to-end, production-style Kubernetes platform on Amazon EKS, using Terraform for infrastructure provisioning and Kubernetes for application orchestration.
+**AWS · Terraform · Kubernetes · Helm · Argo CD · GitHub Actions · Prometheus · Grafana**
 
-- Provisioned an EKS cluster with **four worker nodes across two Availability Zones**.
-- Configured NGINX Ingress, cert-manager and ExternalDNS for application routing, HTTPS and DNS.
+Built and deployed an end-to-end Kubernetes platform on Amazon EKS, applying **production-grade engineering practices** across infrastructure provisioning, container orchestration, GitOps, CI/CD, security scanning and monitoring.
+
+### Engineering Implementation
+
+- Provisioned an EKS cluster using Terraform with **four worker nodes across two Availability Zones**.
+- Configured NGINX Ingress, cert-manager and ExternalDNS for application routing, HTTPS and Cloudflare DNS.
+- Deployed the IT-Tools application with **two Kubernetes replicas**.
 - Implemented **Argo CD GitOps** for automated application reconciliation.
-- Set up **Prometheus and Grafana** for cluster monitoring.
-- Built GitHub Actions workflows with AWS OIDC authentication and Checkov/Trivy security scanning.
+- Set up **Prometheus and Grafana** for cluster monitoring and observability.
+- Built GitHub Actions workflows using AWS OIDC authentication and Checkov/Trivy security scanning.
 - Troubleshot persistent storage, IAM permissions, pod scheduling and cluster-access issues.
 
-**[Explore EKS Project →](https://github.com/ismaaeelahmed11/eks-project)** · **[Video Walkthrough (2:29) →](https://youtu.be/RDmnaTi2auE)**
+**Outcome:** Successfully deployed a Kubernetes platform with HTTPS application access, GitOps reconciliation, monitoring and automated delivery workflows.
+
+### Project Architecture
+
+![AWS EKS Architecture](https://raw.githubusercontent.com/ismaaeelahmed11/eks-project/main/screenshots/31-architecture-drawio.png)
+
+[**Explore EKS Source Code, Architecture & Troubleshooting →**](https://github.com/ismaaeelahmed11/eks-project) · [**Watch the Walkthrough (2:29) →**](https://youtu.be/RDmnaTi2auE)
+
+---
 
 ### [Self-Managed Kubernetes — kubeadm & Cluster Operations](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)
 
-Built a two-node Kubernetes cluster independently on Ubuntu virtual machines, working directly with cluster setup and networking rather than relying on a managed Kubernetes service.
+**Linux · Kubernetes · kubeadm · containerd · Calico · Cluster Administration**
+
+Built a two-node Kubernetes cluster independently on Ubuntu virtual machines, working directly with cluster setup, container runtime configuration and pod networking rather than relying on a managed Kubernetes service.
+
+### Engineering Implementation
 
 - Bootstrapped Kubernetes using **kubeadm and containerd**.
 - Configured node networking and **Calico CNI**.
 - Deployed NGINX with ClusterIP and NodePort Services.
+- Configured readiness/liveness probes and workload resource limits.
 - Tested scaling, pod self-healing, rolling updates and rollback.
 - Investigated virtualisation, cluster bootstrap and access issues.
 - Documented the implementation with architecture diagrams, Kubernetes manifests and **19 screenshots**.
 
-**[Explore kubeadm Project →](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)** · **[Video Walkthrough (2:00) →](https://youtu.be/a9hATioCGcs)**
+**Verified outcome:** Both Kubernetes nodes reached `Ready`, with four available NGINX replicas and application access through NodePort.
+
+[**Explore kubeadm Project →**](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab) · [**Video Walkthrough (2:00) →**](https://youtu.be/a9hATioCGcs)
 
 ---
 
@@ -227,6 +265,7 @@ Across these labs and projects, I've focused on understanding how systems work b
 
 - **Build and test:** Start with the fundamentals, validate configurations and confirm that applications work.
 - **Automate:** Use Bash, Terraform and GitHub Actions to reduce repetitive manual work.
+- **Apply production-grade practices:** Use modular infrastructure as code, CI/CD automation, secure authentication, HTTPS, monitoring and documented configurations.
 - **Troubleshoot:** Investigate logs, permissions, networking, application configuration and resource constraints to identify the cause of failures.
 - **Document:** Preserve configuration files, commands, architecture diagrams and troubleshooting notes.
 - **Apply the fundamentals:** Take the skills developed in individual labs and use them together in end-to-end infrastructure projects.
@@ -241,7 +280,9 @@ Completed the **CoderCo DevOps Engineering programme (January–October 2026)**,
 
 The ECS and EKS projects were completed as part of the programme, while the kubeadm cluster was built independently to develop a deeper understanding of Kubernetes infrastructure.
 
-These are hands-on portfolio environments using real infrastructure, not claims of commercial production experience.
+The AWS projects were built using real cloud infrastructure and **production-grade engineering practices**, but were portfolio deployments rather than commercially operated or fully production-validated services.
+
+Both AWS environments were removed after completion to manage costs. Their infrastructure code, pipeline configurations, architecture diagrams and implementation evidence remain available for review.
 
 ---
 
@@ -249,6 +290,6 @@ These are hands-on portfolio environments using real infrastructure, not claims 
 
 For my complete engineering portfolio, project documentation, architecture diagrams and technical walkthroughs:
 
-**[GitHub Engineering Portfolio →](https://github.com/ismaaeelahmed11)**
+[**GitHub Engineering Portfolio →**](https://github.com/ismaaeelahmed11)
 
 [LinkedIn](https://www.linkedin.com/in/ismaaeelahmed) · [Email](mailto:ismaaeelahmed11@gmail.com)
