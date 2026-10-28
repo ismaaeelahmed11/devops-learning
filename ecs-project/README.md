@@ -1,19 +1,23 @@
-# AWS ECS Fargate — End-to-End Container Platform | Terraform, Docker & CI/CD
+# AWS ECS Fargate — Production-Grade Infrastructure | Terraform, Docker & CI/CD
 
 **AWS · ECS Fargate · Terraform · Docker · Go · GitHub Actions · IAM/OIDC · ALB · ACM/HTTPS · CloudWatch**
 
-> **Completed AWS engineering project — eu-west-2 (London)**  
+> **Completed production-grade DevOps portfolio project | AWS eu-west-2 (London)**  
 > Designed and deployed a containerised Go application using real AWS infrastructure, then recreated the environment as modular Terraform code and added GitHub Actions automation. **The AWS resources have since been destroyed to control costs.** The original hostname, `tm.ismaaeelahmed.co.uk`, is retained as historical deployment evidence, **not a currently running demo**.
 
-## Overview
+**Quick access:** [Technical walkthrough (2:11)](https://youtu.be/qpIZlJkWmos) · [Architecture](#architecture-diagram) · [Deployment proof](#four-screenshots-that-prove-the-main-outcomes) · [Terraform modules](#aws-infrastructure--eight-terraform-modules) · [CI/CD workflows](#cicd--github-actions-oidc--release-boundaries) · [Troubleshooting](#troubleshooting--root-cause-analysis) · [42 evidence stages](#implementation-evidence--42-numbered-stages)
 
-I built an end-to-end **Amazon ECS Fargate application deployment** to demonstrate practical **cloud infrastructure, Linux/container fundamentals, Infrastructure as Code (IaC), CI/CD, networking, AWS identity and troubleshooting**.
+## Project Overview
 
-I started by creating the AWS services manually so I understood how they connected. Once the application was accessible over HTTPS, I **recreated the stack using eight Terraform modules**, used an **S3 remote backend with native state locking**, and implemented **four GitHub Actions workflows** for image publishing and infrastructure operations.
+I **built, deployed and troubleshot an end-to-end Go application on Amazon ECS Fargate**, applying **production-grade engineering practices** across Docker containerisation, Infrastructure as Code (IaC), CI/CD, AWS networking, IAM/OIDC, HTTPS and logging.
 
-The project is supported by the **source code, infrastructure definitions, workflow history, architecture diagram, video walkthrough and 43 numbered implementation-evidence entries**. It documents not just the successful deployment but the errors I investigated and resolved.
+I initially provisioned the AWS services manually to understand their dependencies. Once the application was available over HTTPS, I **recreated the environment using eight reusable Terraform modules**, configured **S3 remote state with native locking**, and added **four GitHub Actions workflows** for image publishing and infrastructure operations.
 
-### Measurable outcomes
+The work is documented through **source code, Terraform configuration, successful workflow runs, architecture diagram, deployment screenshots, a 2:11 video walkthrough and 42 numbered evidence stages**. I include the failures and resolutions—not just the final working application—because debugging the system was an important part of the engineering work.
+
+**What this demonstrates:** I can connect container runtime, AWS infrastructure, load balancing, IAM and CI/CD; validate a working deployment; and investigate problems across service boundaries.
+
+### Outcomes at a Glance
 
 | Area | Completed result |
 | --- | --- |
@@ -32,7 +36,7 @@ The project is supported by the **source code, infrastructure definitions, workf
 
 ---
 
-## Demonstration & Architecture
+## See It Working — Demo, Architecture & Evidence
 
 ### Technical walkthrough (2:11)
 
@@ -47,10 +51,21 @@ The project is supported by the **source code, infrastructure definitions, workf
 **Application request path**
 
 ```text
-Browser → Cloudflare DNS → AWS Application Load Balancer (HTTP 80 → HTTPS 443)
-        → ACM TLS certificate → IP target group → ECS Fargate task :8080
-        → Go application (GET / and GET /health)
+Browser → Cloudflare DNS → Public Application Load Balancer
+                                     │
+                      HTTP :80 redirects to HTTPS :443
+                                     │
+                     ALB terminates TLS using ACM certificate
+                                     │
+                         ALB IP target group :8080
+                                     │
+                           ECS Fargate task :8080
+                                     │
+                            Go HTTP application
+                              GET / and /health
 ```
+
+The ACM certificate is attached to the ALB HTTPS listener; it is **not a separate network hop**.
 
 The public ALB terminates TLS, forwards to a target group with **IP targets** and checks `/health`. The demonstrated Fargate task used a **public subnet** but accepted inbound application traffic **only from the ALB security group** on port `8080`. The two public subnets supported ALB placement across two AZs; **one running task is not a multi-AZ high-availability application**.
 
@@ -74,11 +89,11 @@ The public ALB terminates TLS, forwards to a target group with **IP targets** an
 | ![Terraform apply creating ECS Fargate resources](screenshots/31-terraform-apply-ecs.png) | ![Docker multi-stage build and 4.42MB image](screenshots/02-dockerbuildfinished-and-filesize.png) |
 | ECS cluster/service/task definition created through IaC | Multi-stage build produced a measured 4.42 MB image |
 
-**Evidence interpretation:** A green **App Build & Push** run proves a successful image build and ECR publication; it **does not, by itself, prove automatic ECS service deployment**. The working HTTPS service and Terraform apply are evidenced independently. See [CI/CD design and limitations](#cicd--what-is-automated-and-what-is-not).
+**Evidence interpretation:** A green **App Build & Push** run proves a successful image build and ECR publication; it **does not, by itself, prove automatic ECS service deployment**. The working HTTPS service and Terraform apply are evidenced independently. See [CI/CD design and limitations](#cicd--github-actions-oidc--release-boundaries).
 
 ---
 
-## Engineering Skills — Source Code & Proof
+## Engineering Skills — Source Code & Evidence
 
 | Skill employers look for | Work demonstrated | Evidence |
 | --- | --- | --- |
@@ -94,7 +109,7 @@ The public ALB terminates TLS, forwards to a target group with **IP targets** an
 
 ---
 
-## Implementation Decisions
+## Architecture Decisions & Engineering Trade-offs
 
 ### Why write a Go application?
 
@@ -220,7 +235,7 @@ Always review the plan, AWS charges, existing resources and account-specific val
 
 ---
 
-## CI/CD — What Is Automated and What Is Not
+## CI/CD — GitHub Actions, OIDC & Release Boundaries
 
 The four GitHub Actions workflows live at the **repository root**, [`devops-learning/.github/workflows/`](../.github/workflows/). GitHub does **not** discover workflows placed only inside `ecs-project/.github/workflows/`.
 
@@ -238,7 +253,7 @@ Application change → GitHub Actions → Docker build → Git commit tag
                    → AWS OIDC credentials → Push image to ECR
 ```
 
-Tagging with a commit SHA improves image traceability. The image pipeline **builds and publishes** the image; **publishing an image to ECR does not automatically update a running ECS service**. A complete application continuous-deployment pipeline would register a new task definition image and update the ECS service, then wait for service stability and verify health. That release step is **not evidenced by the App Build & Push workflow**.
+Tagging with a commit SHA improves image traceability. The image pipeline **builds and publishes** the image; **publishing an image to ECR does not automatically update a running ECS service**. A complete application continuous-deployment pipeline would register a new task definition revision with the published image and update the ECS service, then wait for service stability and verify health. That release step is **not evidenced by the App Build & Push workflow**. The Terraform task definition in the published code also references a specific `:v2` image tag, which is separate from the image-publishing workflow's commit-based tags.
 
 The original ECS service was separately deployed and validated through Terraform. I do not represent the image-publishing workflow as an automatic push-to-production deployment.
 
@@ -286,7 +301,7 @@ I have documented the actual failures because **diagnosing the behaviour of a sy
 | **Terraform backend locking failed in CI** | Compared Terraform versions and S3 backend settings | Updated CI from **1.9.0 to 1.11.0** to support `use_lockfile` |
 | **ALB/target group conflict** | Inspected existing manually created AWS resources and Terraform resource dependencies | Resolved the conflicting resources and completed ALB/HTTPS provisioning |
 
-### What I would explain in an interview
+### Engineering lessons I can explain in an interview
 
 - **A Docker image building successfully does not guarantee an ECS task will start.** Entrypoint, permissions, container ports, IAM and networking all influence runtime success.
 - **An application health check is a full request path.** DNS, ACM, listener rules, target groups, security groups and the container all need to agree.
@@ -296,7 +311,7 @@ I have documented the actual failures because **diagnosing the behaviour of a sy
 
 ---
 
-## Running the Project Locally
+## Running the Project Locally & Recreating AWS
 
 **Prerequisites:** Go toolchain compatible with `app/go.mod`, Docker and a terminal.
 
@@ -346,7 +361,7 @@ A safe sequence is:
 
 ---
 
-## Security, Reliability & Next Improvements
+## Security, Reliability & Next Engineering Improvements
 
 | Area | What I implemented | What I would improve for a long-running production system |
 | --- | --- | --- |
@@ -372,9 +387,9 @@ ECS Fargate tasks, ALBs, container storage and other AWS services can incur char
 
 ---
 
-## Implementation Evidence — 43 Numbered Stages
+## Implementation Evidence — 42 Numbered Stages
 
-The **43 evidence entries** are grouped into five project phases. The four featured screenshots appear at the top of this README for quick review; their original entries link to those files rather than displaying them twice. The evidence combines local tests, AWS resources, Terraform results, successful workflows, HTTPS output and architecture diagrams.
+The **42 evidence entries** are grouped into five project phases. The four featured screenshots appear at the top of this README for quick review; their original entries link to those files rather than displaying them twice. The evidence combines local tests, AWS resources, Terraform results, successful workflows, HTTPS output and the final draw.io architecture diagram.
 
 <details>
 <summary><strong>Phase 1 — Local Development (3 evidence entries)</strong></summary>
@@ -651,15 +666,9 @@ Manually triggered Terraform destroy workflow with explicit confirmation.
 </details>
 
 <details>
-<summary><strong>Phase 5 — Architecture (2 evidence entries)</strong></summary>
+<summary><strong>Phase 5 — Architecture (1 evidence entry)</strong></summary>
 
-### 42. Mermaid Architecture Diagram
-
-An architecture diagram documenting the AWS components and their connections.
-
-![Mermaid Architecture](screenshots/39a-architecture-mermaid.png)
-
-### 43. draw.io Architecture Diagram
+### 42. draw.io Architecture Diagram
 
 A detailed architecture diagram showing the VPC, public subnets, ALB, ECS Fargate, ECR, ACM, IAM and CI/CD flow.
 
@@ -669,11 +678,9 @@ A detailed architecture diagram showing the VPC, public subnets, ALB, ECS Fargat
 
 ---
 
----
+## Engineering Outcomes & Interview Discussion
 
-## What This Project Demonstrates
-
-This project combines **Docker, AWS cloud engineering, modular Terraform, CI/CD, IAM/OIDC, DNS/HTTPS, health checks, logging, troubleshooting and cost management** in one documented delivery journey.
+This project brings together **Docker, AWS cloud infrastructure, eight modular Terraform components, GitHub Actions CI/CD, IAM/OIDC, DNS/HTTPS, health checks, CloudWatch logging, troubleshooting and cost management** in a single evidence-backed deployment journey.
 
 The strongest evidence is not any single screenshot. It is the sequence: **build and test a container → deploy it on AWS → configure HTTPS and health checks → reproduce the infrastructure as code → automate repeatable operations → investigate failures → tear down responsibly**.
 
@@ -685,6 +692,10 @@ The strongest evidence is not any single screenshot. It is the sequence: **build
 - [Self-Managed Kubernetes — kubeadm & Cluster Operations](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)
 - [DevOps Engineering Portfolio — Linux, Bash, AWS, Docker, Terraform, CI/CD & Kubernetes](https://github.com/ismaaeelahmed11/devops-learning)
 
+---
+
+**Ismaaeel Ahmed** · DevOps & Cloud Engineering  
+[GitHub Portfolio](https://github.com/ismaaeelahmed11) · [LinkedIn](https://www.linkedin.com/in/ismaaeelahmed) · [Email](mailto:ismaaeelahmed11@gmail.com) · [Project walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)
 ---
 
 **Ismaaeel Ahmed — DevOps & Cloud Engineering**  
