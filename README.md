@@ -1,18 +1,20 @@
-# DevOps Engineering Portfolio | Production-Grade AWS, Terraform, Kubernetes & CI/CD
+# DevOps Engineering Portfolio | AWS, Terraform, Kubernetes & CI/CD
 
-**AWS · Linux · Bash · Git · Networking · Docker · Terraform · GitHub Actions · Kubernetes · GitOps · Observability**
+**DevOps Engineer | AWS · Terraform · Kubernetes · Docker · CI/CD · Linux · GitOps · Observability**
 
-I'm a UK-based **DevOps / Cloud Engineering candidate** with hands-on experience building, automating, deploying and troubleshooting cloud infrastructure, containerised applications and Kubernetes environments.
+I design, build, automate and troubleshoot **AWS cloud infrastructure, containerised applications and Kubernetes platforms**, applying production-grade engineering practices across Infrastructure as Code, CI/CD, networking, security, GitOps, monitoring and incident investigation.
 
-My portfolio includes **three end-to-end engineering projects** applying production-grade DevOps practices across infrastructure as code, CI/CD, networking, security, GitOps and monitoring.
+Alongside these hands-on cloud engineering projects, I bring **professional IT Infrastructure Engineer experience (2022–2024)** managing business-critical networking, Windows systems, endpoint security, backup and recovery, and complex technical troubleshooting.
+
+My portfolio includes **three end-to-end engineering projects**, each backed by source code, architecture decisions, workflow evidence, validation screenshots and root-cause analysis.
 
 - **AWS ECS Fargate:** Containerised Go application deployed on AWS using eight Terraform modules, Docker, ECR, ALB, HTTPS and GitHub Actions.
 - **Amazon EKS:** Kubernetes platform built with Terraform, NGINX Ingress, Argo CD GitOps, HTTPS and Prometheus/Grafana monitoring.
 - **Self-Managed Kubernetes:** Independently built two-node Kubernetes cluster using Ubuntu, kubeadm, containerd and Calico.
 
-This repository is the **technical foundation and project hub** of my portfolio. It contains practical labs, scripts, infrastructure code, CI/CD workflows, architecture diagrams, deployment evidence and documented troubleshooting.
+This repository is the **technical foundation and project hub** of my portfolio. It contains nine hands-on technical modules, scripts, infrastructure code, CI/CD workflows, architecture diagrams, deployment evidence and documented troubleshooting.
 
-My focus is on understanding how infrastructure works, automating repeatable processes, investigating failures and building systems that can be explained, maintained and improved.
+My approach is to **understand the system, engineer the solution, automate repeatable operations, validate outcomes and investigate failures to root cause**. I document both working implementations and the technical decisions behind them.
 
 > **Project status:** The AWS ECS and EKS environments were successfully deployed and demonstrated, then intentionally destroyed to avoid ongoing AWS charges. Historical application URLs are not live demos. The kubeadm project is a local VirtualBox-based Kubernetes lab. Source code, configuration, screenshots and technical walkthroughs remain available.
 
@@ -32,6 +34,8 @@ Three complementary projects demonstrating **AWS infrastructure automation, mana
 
 **Technical walkthroughs:** [ECS (2:11)](https://youtu.be/qpIZlJkWmos) · [EKS (2:29)](https://youtu.be/RDmnaTi2auE) · [kubeadm (2:00)](https://youtu.be/a9hATioCGcs)
 
+**[Professional infrastructure experience](#professional-infrastructure-engineering-experience)** · **[Engineering troubleshooting evidence](#engineering-problem-solving--real-issues-resolved)**
+
 ---
 
 ### 1. AWS ECS Fargate — Production-Grade Infrastructure & CI/CD
@@ -49,8 +53,10 @@ I initially configured the infrastructure manually to understand AWS service dep
 - Configured **Amazon S3 remote Terraform state** with encryption, versioning and native state locking.
 - Built VPC networking across two public subnets and configured an **Application Load Balancer**, IP target group, health checks and HTTPS.
 - Integrated **AWS Certificate Manager** and Cloudflare DNS for custom-domain application access.
-- Created **four GitHub Actions workflows** covering Docker image publishing, Terraform planning, infrastructure provisioning and controlled teardown.
+- Developed **four GitHub Actions workflows** for container-image publishing, Terraform planning/validation, infrastructure apply and controlled teardown; a recorded successful image build-and-push run completed in **34 seconds**.
 - Implemented **GitHub Actions OIDC federation** for short-lived AWS authentication without long-lived access keys.
+- Strengthened the Terraform IAM configuration by removing `AdministratorAccess`, restricting the deployment role's OIDC trust to `main` and defining an ECR image-publishing policy scoped to the project's repository.
+- Made Terraform Apply **manual-only** and separated pull-request `fmt`/`validate` checks from AWS-authenticated planning.
 - Enabled **Amazon CloudWatch Logs** for application logging and troubleshooting.
 
 #### Troubleshooting & Problem Solving
@@ -63,7 +69,7 @@ I initially configured the infrastructure manually to understand AWS service dep
 
 #### Verified Outcome
 
-Successfully deployed the Go application through Terraform-managed AWS infrastructure with **HTTPS access, application health checks, CloudWatch logging and automated infrastructure workflows**.
+Successfully deployed and validated the Go application on Terraform-managed AWS infrastructure with **HTTPS access, application health checks and CloudWatch logging**. Demonstrated workflow-based infrastructure automation and recorded a successful **34-second image build-and-push** run.
 
 The application was tested at `tm.ismaaeelahmed.co.uk` before the AWS resources were removed.
 
@@ -73,7 +79,7 @@ The application was tested at `tm.ismaaeelahmed.co.uk` before the AWS resources 
 
 **[View ECS source code & full technical README](ecs-project/)** · **[Architecture diagram](ecs-project/screenshots/39b-architecture-drawio.png)** · **[GitHub Actions evidence](ecs-project/screenshots/37b-ci-cd-both-pipelines-green.png)** · **[Terraform provisioning evidence](ecs-project/screenshots/31-terraform-apply-ecs.png)** · **[Watch walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)**
 
-> **CI/CD scope:** The image-publishing workflow builds and pushes Docker images to ECR. Publishing an image does not, by itself, automatically deploy a new ECS service revision. That release distinction and the next improvement are documented in the detailed project README.
+> **CI/CD and security scope:** The image workflow publishes to ECR; image publication alone does not deploy a new ECS service revision. The updated code contains main-branch OIDC trust, scoped ECR publishing permissions, AWS-free pull-request validation and manual Terraform Apply. Separate IAM permissions for authenticated Terraform Plan/Apply/Destroy are still required before a full AWS redeployment. See the detailed ECS README for design decisions and evidence.
 
 ---
 
@@ -125,7 +131,7 @@ The managed node group was configured for four desired workers; the preserved ev
 
 **Ubuntu · VirtualBox · kubeadm · containerd · Calico · kubectl · Linux · Kubernetes Networking**
 
-Following my Amazon EKS project, I independently built a **two-node Kubernetes cluster on Ubuntu virtual machines** to develop a deeper understanding of Kubernetes administration outside a managed cloud platform.
+Following my Amazon EKS project, I independently built a **two-node Kubernetes cluster on Ubuntu virtual machines** during my wider DevOps engineering development to understand Kubernetes administration below the managed cloud layer.
 
 Instead of relying on AWS to manage the control plane, I configured the Linux environment, container runtime, node connectivity and Kubernetes networking directly.
 
@@ -170,7 +176,7 @@ Demonstrated a functioning self-managed Kubernetes environment with:
 
 ## Technical Skills — Linked to Implementation
 
-The technologies below are supported by **hands-on code, configurations, project evidence or documented exercises**.
+The technologies below are supported by **hands-on code, configurations, project evidence, documented exercises or professional infrastructure responsibilities**.
 
 | Area | Practical Implementation | Evidence |
 | --- | --- | --- |
@@ -184,7 +190,8 @@ The technologies below are supported by **hands-on code, configurations, project
 | **CI/CD** | GitHub Actions, automated tests, image publishing, Terraform planning, apply/teardown and AWS OIDC | [CI/CD labs](cicd/) · [GitHub Actions workflows](.github/workflows/) |
 | **Kubernetes & Helm** | Deployments, Services, Ingress, health probes, resource controls, kubeadm, Calico and Helm-based deployment | [Kubernetes labs](k8s/exercises/) · [EKS](https://github.com/ismaaeelahmed11/eks-project) · [kubeadm](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab) |
 | **GitOps & Observability** | Argo CD reconciliation, Prometheus metrics, Grafana dashboards and CloudWatch logging | [EKS project](https://github.com/ismaaeelahmed11/eks-project) |
-| **Security Practices** | AWS IAM, OIDC authentication, HTTPS/TLS, non-root containers and Checkov/Trivy reporting | [ECS IAM/OIDC](ecs-project/terraform/modules/) · [EKS workflows](https://github.com/ismaaeelahmed11/eks-project/tree/main/.github/workflows) |
+| **Security Practices** | AWS IAM, branch-restricted GitHub OIDC, ECR-scoped policies in Terraform, HTTPS/TLS, non-root containers and Checkov/Trivy reporting | [ECS IAM/OIDC](ecs-project/terraform/modules/oidc/) · [EKS workflows](https://github.com/ismaaeelahmed11/eks-project/tree/main/.github/workflows) |
+| **Systems & Infrastructure Operations** | Windows administration, POS infrastructure, WAN failover, network segmentation, endpoint security, encrypted backups, incident escalation | [Professional infrastructure experience](#professional-infrastructure-engineering-experience) |
 
 ---
 
@@ -305,6 +312,24 @@ Each area includes practical exercises, implementation notes, scripts and suppor
 
 ---
 
+## Professional Infrastructure Engineering Experience
+
+### IT Infrastructure Engineer | Arif Mobiles & Travel
+
+**Luton, United Kingdom · 2022–2024**
+
+Alongside my DevOps portfolio, I bring **two years of paid, business-critical infrastructure engineering experience** across network resilience, security, Windows systems administration, technical escalation and disaster recovery.
+
+- **Network resilience:** Engineered and maintained business-critical connectivity, implementing **automated 4G/5G WAN failover** to support travel bookings, payments and financial-remittance operations.
+- **Network security:** Implemented **guest Wi-Fi segmentation and endpoint security controls** to separate untrusted traffic from sensitive transaction systems.
+- **Systems administration:** Administered **Windows systems, POS infrastructure and business applications**, including deployments, patching and operational maintenance.
+- **Technical escalation:** Investigated and resolved **TCP/IP, hardware and third-party integration failures**, coordinating with vendors as the primary technical escalation contact.
+- **Backup and recovery:** Designed and maintained **encrypted cloud and on-premises backups** to support disaster recovery, data protection and continuity of essential business systems.
+
+This professional background reinforces the cloud engineering work above: I bring real experience supporting the reliability, security and troubleshooting of operational infrastructure.
+
+---
+
 ## Engineering Problem-Solving — Real Issues Resolved
 
 A major part of my engineering work has involved diagnosing failures rather than only documenting successful deployments.
@@ -317,6 +342,7 @@ I preserve troubleshooting notes alongside working configurations because unders
 | **CloudWatch logging failure** | Inspected IAM permissions and corrected missing `logs:CreateLogGroup` access | AWS IAM, logging and diagnostics |
 | **Terraform S3 state-locking failure** | Investigated version compatibility and updated Terraform in GitHub Actions from `1.9.0` to `1.11.0` | Terraform, CI/CD, tool compatibility |
 | **GitHub Actions workflows not triggering** | Found workflow files in a project subdirectory and moved them into repository-root `.github/workflows/` | CI/CD, GitHub repository structure |
+| **ECS CI/CD access-control hardening** | Removed broad AWS administrator policy attachment, narrowed OIDC subject trust to `main`, added a repository-specific ECR publishing policy and separated PR validation from authenticated Terraform planning | IAM, OIDC, least-privilege design, workflow controls |
 | **EKS monitoring Pods and PVCs Pending** | Investigated node capacity, EBS CSI provisioning and IAM permissions; configured storage access and adjusted capacity | Kubernetes scheduling, storage, AWS IAM |
 | **EKS authentication and access conflicts** | Diagnosed OIDC trust-policy conditions and conflicting cluster access settings | IAM/OIDC, EKS access management |
 | **kubeadm bootstrap and VM instability** | Investigated VirtualBox CPU issues, Kubernetes component health and administrative API/RBAC access | Linux, virtualisation, cluster troubleshooting |
@@ -324,8 +350,8 @@ I preserve troubleshooting notes alongside working configurations because unders
 **Detailed technical investigations:**
 
 - [ECS troubleshooting & root-cause analysis](ecs-project/#troubleshooting--root-cause-analysis)
-- [EKS troubleshooting & root-cause analysis](https://github.com/ismaaeelahmed11/eks-project#troubleshooting-and-root-cause-analysis)
-- [kubeadm troubleshooting & root-cause investigation](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab#troubleshooting--root-cause-investigation)
+- [EKS troubleshooting & root-cause analysis](https://github.com/ismaaeelahmed11/eks-project#troubleshooting--root-cause-analysis)
+- [kubeadm troubleshooting & root-cause investigation](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab#troubleshooting--root-cause-analysis)
 
 ---
 
@@ -376,7 +402,7 @@ My approach is to:
 
 I completed the **CoderCo DevOps Engineering programme (January–October 2026)**, covering nine hands-on modules.
 
-The AWS ECS and EKS projects were completed as part of this programme. I subsequently built the kubeadm Kubernetes lab independently to strengthen my Linux and Kubernetes administration knowledge.
+The AWS ECS and EKS projects were completed as part of this programme. I built the kubeadm Kubernetes lab independently during the same wider DevOps engineering development period, following EKS, to deepen my Linux and Kubernetes administration knowledge.
 
 The AWS projects used **real cloud infrastructure and production-grade engineering practices**, including:
 
@@ -393,15 +419,15 @@ The AWS projects used **real cloud infrastructure and production-grade engineeri
 
 These were **hands-on portfolio deployments rather than commercially operated production services**. Where reliability controls, security gates, high availability or automation steps were not fully implemented or tested, their limitations are documented in the relevant project README.
 
-Alongside these projects, I bring **two years of professional IT support experience**, troubleshooting Windows systems, networking, staff access and day-to-day technical operations.
+Alongside these projects, I bring **two years of professional IT Infrastructure Engineer experience** spanning network resilience, security, Windows systems, technical troubleshooting, business systems and backup/recovery operations.
 
-I'm pursuing opportunities in **DevOps Engineering, Cloud Engineering, Platform Engineering and Infrastructure Operations**, where I can contribute practical technical skills and continue developing production engineering experience.
+I'm pursuing opportunities in **DevOps Engineering, Cloud Engineering, Platform Engineering and Infrastructure Engineering**, where I can apply my engineering capabilities, infrastructure experience and approach to automation, reliability and root-cause troubleshooting.
 
 ---
 
 ## Contact & Technical Walkthroughs
 
-**Ismaaeel Ahmed — DevOps & Cloud Engineering**
+**Ismaaeel Ahmed — DevOps Engineer | Cloud · Platform · Infrastructure**
 
 **United Kingdom · British citizen · No visa sponsorship required**
 
