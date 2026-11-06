@@ -1,11 +1,6 @@
 name: ECS Terraform Apply
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'ecs-project/terraform/**'
   workflow_dispatch:
 
 permissions:
