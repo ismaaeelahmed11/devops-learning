@@ -1,38 +1,36 @@
-# AWS ECS Fargate — Production-Grade Infrastructure | Terraform, Docker & CI/CD
+# AWS ECS Fargate — Production-Grade Infrastructure, Terraform & CI/CD
 
 **AWS · ECS Fargate · Terraform · Docker · Go · GitHub Actions · IAM/OIDC · ALB · ACM/HTTPS · CloudWatch**
 
-> **Completed production-grade DevOps portfolio project | AWS eu-west-2 (London)**  
-> Designed and deployed a containerised Go application using real AWS infrastructure, then recreated the environment as modular Terraform code and added GitHub Actions automation. **The AWS resources have since been destroyed to control costs.** The original hostname, `tm.ismaaeelahmed.co.uk`, is retained as historical deployment evidence, **not a currently running demo**.
+> **Completed AWS engineering deployment | `eu-west-2` (London)**  
+> Designed, deployed and verified a containerised Go service on AWS ECS Fargate, first through manual AWS configuration and then using modular Terraform and GitHub Actions. **The AWS infrastructure has since been removed to manage cost.** The original hostname, `tm.ismaaeelahmed.co.uk`, is preserved as historical deployment evidence, not a live demo.
 
-**Quick access:** [Technical walkthrough (2:11)](https://youtu.be/qpIZlJkWmos) · [Architecture](#architecture-diagram) · [Deployment proof](#four-screenshots-that-prove-the-main-outcomes) · [Terraform modules](#aws-infrastructure--eight-terraform-modules) · [CI/CD workflows](#cicd--github-actions-oidc--release-boundaries) · [Troubleshooting](#troubleshooting--root-cause-analysis) · [42 evidence stages](#implementation-evidence--42-numbered-stages)
+**Project navigation:** [2:11 walkthrough](https://youtu.be/qpIZlJkWmos) · [Architecture](#architecture-diagram) · [Deployment evidence](#four-screenshots-that-prove-the-main-outcomes) · [Terraform](#aws-infrastructure--eight-terraform-modules) · [GitHub Actions](#cicd--github-actions-oidc--release-boundaries) · [Root-cause analysis](#troubleshooting--root-cause-analysis) · [42 evidence stages](#implementation-evidence--42-numbered-stages)
 
 ## Project Overview
 
-I **built, deployed and troubleshot an end-to-end Go application on Amazon ECS Fargate**, applying **production-grade engineering practices** across Docker containerisation, Infrastructure as Code (IaC), CI/CD, AWS networking, IAM/OIDC, HTTPS and logging.
+I **engineered and deployed an end-to-end Go HTTP application on Amazon ECS Fargate**, bringing together containerisation, Infrastructure as Code, AWS networking, HTTPS, IAM, CI/CD, health checks and application logging.
 
-I initially provisioned the AWS services manually to understand their dependencies. Once the application was available over HTTPS, I **recreated the environment using eight reusable Terraform modules**, configured **S3 remote state with native locking**, and added **four GitHub Actions workflows** for image publishing and infrastructure operations.
+I first configured the AWS resources manually to understand the full request and deployment paths. I then reproduced the environment through **eight Terraform modules**, established an **S3-backed remote state**, and implemented **four GitHub Actions workflows** for image publishing and Terraform operations. Following successful deployment demonstrations, I strengthened the repository's AWS authentication model, introducing **branch-restricted OIDC trust and repository-scoped ECR permissions** and making Terraform Apply manual-only.
 
-The work is documented through **source code, Terraform configuration, successful workflow runs, architecture diagram, deployment screenshots, a 2:11 video walkthrough and 42 numbered evidence stages**. I include the failures and resolutions—not just the final working application—because debugging the system was an important part of the engineering work.
+The evidence includes **source code, a draw.io architecture diagram, working HTTPS screenshots, Terraform plan/apply outputs, GitHub Actions run history, a 2:11 technical walkthrough and 42 implementation stages**. The README also records real failures and how I diagnosed them.
 
-**What this demonstrates:** I can connect container runtime, AWS infrastructure, load balancing, IAM and CI/CD; validate a working deployment; and investigate problems across service boundaries.
+### Verified Engineering Outcomes
 
-### Outcomes at a Glance
-
-| Area | Completed result |
+| Area | Demonstrated result |
 | --- | --- |
-| **Application** | Created a Go HTTP server with `/` and `/health` endpoints |
-| **Containerisation** | Multi-stage Docker build; non-root `scratch` runtime image measured at **4.42 MB** |
-| **Compute** | Deployed to **Amazon ECS Fargate** with a **0.25 vCPU / 512 MB** task |
-| **Networking** | Custom VPC, two public subnets across two Availability Zones, ALB, target group and security groups |
-| **HTTPS** | Custom domain via Cloudflare, AWS Certificate Manager, HTTP-to-HTTPS redirect |
-| **Infrastructure as Code** | Recreated the deployment with **eight Terraform modules** and S3 remote state |
-| **CI/CD** | **Four GitHub Actions workflows**: image build/push, Terraform plan, apply and controlled destroy |
-| **Authentication** | GitHub Actions → AWS **OIDC role assumption**, avoiding stored long-lived access keys |
-| **Operations** | ALB `/health` checks, CloudWatch application logging and documented incident resolution |
-| **Cost control** | Implemented teardown automation and removed the lab infrastructure after completion |
+| **Application** | Go HTTP server with `GET /` and `GET /health` |
+| **Container** | Multi-stage Go build; non-root `scratch` runtime; measured image size **4.42 MB** |
+| **Compute** | ECS Fargate task configured at **0.25 vCPU / 512 MiB**, desired service count **1** |
+| **Networking** | Custom VPC, two public subnets across two AZs, internet-facing ALB, IP target group, scoped inbound ECS security group |
+| **TLS and DNS** | HTTP-to-HTTPS redirect, ACM-backed HTTPS listener, Cloudflare CNAME and working custom domain |
+| **Infrastructure as Code** | **Eight Terraform modules**; S3 remote state with native lockfile support |
+| **CI/CD** | **Four GitHub Actions workflows**; historical successful image-publishing and infrastructure runs; recorded **34-second image build/push** |
+| **AWS identity** | GitHub OIDC federation; subsequently restricted to the `main` branch with an ECR-specific publishing policy |
+| **Operations** | ALB `/health` checks, CloudWatch Logs and incident-level troubleshooting |
+| **Cost control** | Deliberate lab teardown with retained source code, diagrams and run evidence |
 
-**Scope:** The deployment uses **production-grade engineering practices**—IaC, version control, containerisation, HTTPS, health checks, automated workflows and federated identity. It is a **time-limited technical portfolio environment**, not a commercially operated or fully production-validated service. That distinction does not diminish the engineering work demonstrated here.
+This project demonstrates **production-grade engineering practices**, not a claim of operating a commercial production service. Its architecture decisions, deployment boundaries and known limitations are documented below.
 
 ---
 
@@ -79,10 +77,10 @@ The public ALB terminates TLS, forwards to a target group with **IP targets** an
 
 ### Four screenshots that prove the main outcomes
 
-| **Working application over HTTPS** | **GitHub Actions workflows passed** |
+| **Working application over HTTPS** | **Historical GitHub Actions runs passed** |
 | --- | --- |
 | ![Go application served over HTTPS by Terraform-managed ECS](screenshots/33a-terraform-https-home.png) | ![Successful ECS image publishing and infrastructure workflows](screenshots/37b-ci-cd-both-pipelines-green.png) |
-| Verified custom domain and TLS following the Terraform rebuild | Successful image-publishing and infrastructure-apply jobs |
+| Verified custom domain and TLS following the Terraform rebuild | Previously successful image-publishing and infrastructure-apply jobs |
 
 | **Terraform applied ECS infrastructure** | **Minimal Docker image built** |
 | --- | --- |
@@ -93,19 +91,19 @@ The public ALB terminates TLS, forwards to a target group with **IP targets** an
 
 ---
 
-## Engineering Skills — Source Code & Evidence
+## Engineering Capabilities — Source Code & Evidence
 
-| Skill employers look for | Work demonstrated | Evidence |
+| Engineering discipline | Work demonstrated | Evidence |
 | --- | --- | --- |
-| **AWS / Cloud engineering** | ECS Fargate, ECR, ALB, ACM, IAM, VPC and CloudWatch | [Terraform modules](terraform/modules/), [AWS deployment evidence](#implementation-evidence) |
+| **AWS / Cloud engineering** | ECS Fargate, ECR, ALB, ACM, IAM, VPC and CloudWatch | [Terraform modules](terraform/modules/), [AWS deployment evidence](#implementation-evidence--42-numbered-stages) |
 | **Terraform / Infrastructure as Code** | Eight modular components, variables, outputs, S3 state and locking | [Terraform source](terraform/), [ECS apply](screenshots/31-terraform-apply-ecs.png) |
 | **Docker / containers** | Built a Go binary in a multi-stage image, ran it non-root, tested locally | [Dockerfile](Dockerfile), [Go app](app/main.go), [image-size evidence](screenshots/02-dockerbuildfinished-and-filesize.png) |
-| **CI/CD / GitHub Actions** | Image publishing, PR infrastructure plans, apply, manually confirmed destroy | [Repository workflows](../.github/workflows/), [passing workflows](screenshots/37b-ci-cd-both-pipelines-green.png) |
+| **CI/CD / GitHub Actions** | Image publishing, PR formatting/validation, manual Terraform plan/apply and confirmed destroy | [Repository workflows](../.github/workflows/), [passing workflows](screenshots/37b-ci-cd-both-pipelines-green.png) |
 | **Networking** | ALB listeners, target groups, ports, health checks, security groups, DNS | [ALB/Terraform code](terraform/modules/alb/), [HTTPS evidence](screenshots/33a-terraform-https-home.png) |
 | **Identity & security** | ECS execution permissions, ACM TLS, GitHub OIDC, SG-restricted application ingress | [IAM module](terraform/modules/iam/), [OIDC module](terraform/modules/oidc/) |
 | **Monitoring & operations** | ALB `/health` checks and CloudWatch Logs; diagnosed missing log permissions | [Application endpoint](app/main.go), [IAM incident](#troubleshooting--root-cause-analysis) |
 | **Troubleshooting** | Resolved port-binding, logging IAM, Terraform version and workflow discovery problems | [Incident investigations](#troubleshooting--root-cause-analysis) |
-| **Cost awareness** | Designed a budget-conscious lab with explicit teardown | [Destroy workflow folder](../.github/workflows/), [teardown evidence](screenshots/42-ci-cd-terraform-destroy-trigger.png) |
+| **Cost awareness** | Designed a budget-conscious lab with controlled teardown | [Destroy workflow](../.github/workflows/ecs-terraform-destroy.yml), [teardown evidence](screenshots/42-ci-cd-terraform-destroy-trigger.png) |
 
 ---
 
@@ -237,33 +235,56 @@ Always review the plan, AWS charges, existing resources and account-specific val
 
 ## CI/CD — GitHub Actions, OIDC & Release Boundaries
 
-The four GitHub Actions workflows live at the **repository root**, [`devops-learning/.github/workflows/`](../.github/workflows/). GitHub does **not** discover workflows placed only inside `ecs-project/.github/workflows/`.
+The four workflows are stored at the **repository root**, in [`devops-learning/.github/workflows/`](../.github/workflows/). This is important: GitHub Actions does not discover workflow files located solely under `ecs-project/.github/workflows/`.
 
-| Workflow | Trigger | Demonstrated behaviour |
+The project contains **historical successful deployment runs** and a **subsequently security-hardened workflow configuration**. The table below reflects the current source code, rather than assuming every historical workflow still has the same trigger or permissions.
+
+| Workflow | Current trigger | Current implementation |
 | --- | --- | --- |
-| **ECS App Build & Push** | Push to `main` affecting Go app/Dockerfile | Build container, tag using source revision, push to Amazon ECR |
-| **ECS Terraform Plan** | Pull requests affecting Terraform (also invoked manually during demo) | Formatting, initialisation, validation and plan |
-| **ECS Terraform Apply** | Push to `main` affecting Terraform | Provision/update infrastructure and run an application health check |
-| **ECS Terraform Destroy** | Manual trigger with `destroy` confirmation | Remove Terraform-managed infrastructure |
+| [**ECS App Build & Push**](../.github/workflows/ecs-app-build-push.yml) | Push to `main` for the app/Dockerfile/workflow, or manual dispatch | Authenticate to AWS using OIDC; build and push `github.sha` and `latest` image tags to ECR |
+| [**ECS Terraform Plan**](../.github/workflows/ecs-terraform-plan.yml) | Terraform-related pull requests, or manual dispatch | **PR:** `fmt -check -recursive`, `init -backend=false`, `validate` without AWS credentials. **Manual main-branch job:** AWS-authenticated `terraform plan` using `AWS_PLAN_ROLE_ARN` |
+| [**ECS Terraform Apply**](../.github/workflows/ecs-terraform-apply.yml) | **Manual dispatch only** | Assume `AWS_ROLE_ARN`, initialise Terraform, run apply, then poll the HTTPS `/health` endpoint |
+| [**ECS Terraform Destroy**](../.github/workflows/ecs-terraform-destroy.yml) | **Manual dispatch** with `confirm=destroy` | Assume `AWS_ROLE_ARN`, initialise state and run Terraform destroy |
 
-### Application image pipeline
+### Application image publication
 
 ```text
-Application change → GitHub Actions → Docker build → Git commit tag
-                   → AWS OIDC credentials → Push image to ECR
+Git push to main / manual dispatch
+                 │
+                 ▼
+          GitHub Actions
+                 │
+                 ▼
+   Short-lived AWS credentials (OIDC)
+                 │
+                 ▼
+        Docker build and tag
+                 │
+                 ▼
+     Amazon ECR: SHA + latest
 ```
 
-Tagging with a commit SHA improves image traceability. The image pipeline **builds and publishes** the image; **publishing an image to ECR does not automatically update a running ECS service**. A complete application continuous-deployment pipeline would register a new task definition revision with the published image and update the ECS service, then wait for service stability and verify health. That release step is **not evidenced by the App Build & Push workflow**. The Terraform task definition in the published code also references a specific `:v2` image tag, which is separate from the image-publishing workflow's commit-based tags.
+The application workflow produces a version-traceable image using **`github.sha`** and also pushes `latest`. A previously successful run completed image building and publication in **34 seconds**.
 
-The original ECS service was separately deployed and validated through Terraform. I do not represent the image-publishing workflow as an automatic push-to-production deployment.
+**Release boundary:** The image-publishing workflow **does not update an ECS task definition or roll out a new ECS service revision**. The Terraform ECS task definition currently references the static image tag `:v2`, not the newly published SHA. A complete continuous-deployment path would select the published image digest/tag, register a new task-definition revision, update the service, await stability and verify the application.
 
-### Infrastructure plan, apply and teardown
+### Terraform validation, deployment and permissions
 
-The **Plan** workflow checks configuration changes before infrastructure modification. The **Apply** workflow assumes the AWS role via OIDC, runs Terraform and performs a health check after applying. The **Destroy** workflow requires a deliberate manual confirmation before removing tracked resources.
+The Terraform validation job now runs on pull requests **without AWS credentials**, reducing the privileges needed for routine code checks. AWS-authenticated planning is **manual-only**, runs on `main`, and uses a distinct `AWS_PLAN_ROLE_ARN` secret.
 
-OIDC means GitHub Actions does not need persistent AWS access keys. It **does not automatically make the assumed IAM role least-privileged**: the original GitHub Actions role had `AdministratorAccess`, which I would replace with tighter, separate infrastructure and application-deployment roles in a production system.
+Terraform Apply is also **manual-only** rather than running automatically on every change. Terraform Destroy requires the operator to enter the exact confirmation value `destroy`.
 
-**CI/CD evidence:** [Successful image pipeline](screenshots/37-app-pipeline-success.png) · [Both workflows green](screenshots/37b-ci-cd-both-pipelines-green.png) · [Apply job steps](screenshots/38-ci-cd-terraform-apply-detail.png) · [PR plan](screenshots/41-ci-cd-terraform-plan.png) · [Destroy confirmation](screenshots/42-ci-cd-terraform-destroy-trigger.png)
+The current [OIDC Terraform module](terraform/modules/oidc/main.tf) has been hardened in three specific ways:
+
+1. Removed the original AWS-managed `AdministratorAccess` attachment.
+2. Restricted OIDC audience and subject to `sts.amazonaws.com` and `repo:ismaaeelahmed11/devops-learning:ref:refs/heads/main`.
+3. Added an inline ECR publishing policy: `ecr:GetAuthorizationToken` and repository-scoped image-upload actions for `ecs-project`.
+
+**Redeployment dependency:** The currently defined GitHub Actions IAM role is **ECR-publish-only**. It does not grant Terraform provisioning or destruction permissions. `AWS_PLAN_ROLE_ARN` requires a separately configured planning role, and Apply/Destroy require appropriately scoped infrastructure permissions before they can successfully run again. The original AWS environment and historical roles have been removed. The published code demonstrates the security changes, not a fresh end-to-end AWS deployment after those changes.
+
+The manually dispatched Apply/Destroy workflows still contain `-auto-approve`; manual dispatch or a typed confirmation is **not the same as an independent reviewer approval gate**. A future long-running deployment would use separate environment roles, reviewed plan artifacts and protected environment approvals.
+
+**Historical CI/CD evidence:** [Successful app pipeline](screenshots/37-app-pipeline-success.png) · [Build and infrastructure workflows](screenshots/37b-ci-cd-both-pipelines-green.png) · [Apply run steps](screenshots/38-ci-cd-terraform-apply-detail.png) · [Earlier plan run](screenshots/41-ci-cd-terraform-plan.png) · [Destroy dispatch](screenshots/42-ci-cd-terraform-destroy-trigger.png)
 
 ---
 
@@ -291,23 +312,24 @@ That failure demonstrated an important AWS distinction: **container execution pe
 
 ## Troubleshooting & Root Cause Analysis
 
-I have documented the actual failures because **diagnosing the behaviour of a system matters more than only displaying a final green status**.
+This project was built and validated through real incidents affecting container startup, IAM, infrastructure ownership and CI/CD. Each fix required tracing a failure across service boundaries rather than simply rerunning a command.
 
-| Incident | Investigation | Resolution / takeaway |
+| Incident | Investigation | Resolution / engineering insight |
 | --- | --- | --- |
-| **Container exited with code 1** | Checked process startup, non-root runtime and application port | Moved Go listener to **8080** and aligned task, target group and security group configuration |
-| **CloudWatch log group permission error** | Checked ECS task execution role and Logs access | Granted `logs:CreateLogGroup`; IAM can prevent a task from starting before application traffic reaches it |
-| **GitHub Actions workflows did not trigger** | Checked repository layout and workflow discovery path | Relocated YAML files to repository-level `.github/workflows/` |
-| **Terraform backend locking failed in CI** | Compared Terraform versions and S3 backend settings | Updated CI from **1.9.0 to 1.11.0** to support `use_lockfile` |
-| **ALB/target group conflict** | Inspected existing manually created AWS resources and Terraform resource dependencies | Resolved the conflicting resources and completed ALB/HTTPS provisioning |
+| **Container exited with code 1** | Reviewed the non-root container runtime and privileged-port binding | Changed Go listener to **8080** and aligned task definition, ALB target group and security groups |
+| **CloudWatch Logs permission failure** | Inspected task execution permissions and log-driver configuration | Added required `logs:CreateLogGroup` permission; container startup depends on IAM as well as runtime configuration |
+| **GitHub Actions workflows not discovered** | Verified GitHub's required workflow directory | Moved YAML files into repository-root `.github/workflows/` |
+| **Terraform S3 locking failed in CI** | Compared the `use_lockfile` backend setting against the workflow's Terraform version | Updated CI from Terraform **1.9.0 to 1.11.0** |
+| **ALB/target group resource conflict** | Investigated resources remaining from manual provisioning and Terraform dependencies | Resolved conflicting resources and completed ALB/HTTPS provisioning |
+| **Overly broad CI/CD AWS permissions** | Reviewed the OIDC role's trust policy and managed IAM attachments | Removed `AdministratorAccess`, narrowed trust to `main`, and added repository-scoped ECR publishing rights |
 
-### Engineering lessons I can explain in an interview
+### Operational Lessons
 
-- **A Docker image building successfully does not guarantee an ECS task will start.** Entrypoint, permissions, container ports, IAM and networking all influence runtime success.
-- **An application health check is a full request path.** DNS, ACM, listener rules, target groups, security groups and the container all need to agree.
-- **Terraform isn't only about writing HCL.** State, backend versions, ownership of existing resources and deployment ordering matter.
-- **A green build pipeline is not automatically a deployment.** Image publication and updating an ECS service are separate operations.
-- **Federated AWS authentication reduces credential risk, but IAM policies still need least-privilege review.**
+- **A successful Docker build is not a successful ECS deployment.** Container startup, runtime ports, IAM, target registration and health checks all need to succeed.
+- **A working HTTPS endpoint reflects a complete request path.** DNS, ACM, listeners, security groups, target health and the Go service must agree.
+- **Terraform correctness includes state and ownership.** Backend compatibility, externally created prerequisites and conflicts with manually provisioned resources are operational concerns.
+- **CI success has a precise scope.** ECR image publication, Terraform infrastructure deployment and ECS service release are separate events.
+- **OIDC is an authentication mechanism, not an IAM permission policy.** The assumed role still requires appropriate scoping and review.
 
 ---
 
@@ -361,21 +383,23 @@ A safe sequence is:
 
 ---
 
-## Security, Reliability & Next Engineering Improvements
+## Security, Reliability & Engineering Roadmap
 
-| Area | What I implemented | What I would improve for a long-running production system |
+The completed deployment proves infrastructure and application delivery. The repository also shows subsequent security improvements and identifies controls that would matter in a continuously operated production environment.
+
+| Area | Implemented / evidenced | Next improvement for a long-running environment |
 | --- | --- | --- |
-| **Container security** | Non-root minimal `scratch` image | Regular Go/dependency updates, SBOM/signing, vulnerability policy gates |
-| **Image registry** | Private ECR repository with scan-on-push | Immutable tags, deployment by image digest, release gates |
-| **AWS authentication** | GitHub Actions OIDC; no long-lived AWS keys | Remove broad `AdministratorAccess`, split roles and restrict trust subjects |
-| **Network exposure** | ALB HTTPS; ECS accepts inbound traffic from ALB SG | Private task subnets, appropriate VPC endpoints/NAT, network review |
-| **Reliability** | ALB health check and two-AZ ALB placement | Multiple ECS tasks across AZs, controlled failover testing, autoscaling |
-| **Application delivery** | Automated Docker build/push and Terraform infrastructure apply | Image-to-task-definition release automation, ECS service stability, rollback |
-| **Observability** | CloudWatch Logs and basic `/health` | CloudWatch alarms, dashboards, error-rate/latency metrics and runbooks |
-| **Testing** | Local `curl`, Docker checks, ALB health and workflow validation | Automated Go tests, smoke tests, integration checks and failure tests |
-| **Change control** | Terraform plan on PRs and apply workflow | Branch protection, environment approvals, review gates and policy checks |
+| **Container runtime** | Non-root `scratch` image; 4.42 MB measured size | Dependency updates, image signing/SBOM and vulnerability policy gates |
+| **ECR** | Private repository; scan-on-push; SHA-tagged image publishing | Immutable tags, deployments by image digest, release promotion |
+| **AWS authentication** | OIDC credentials; main-branch trust; ECR-scoped image-publishing permissions defined in Terraform | Distinct least-privilege roles for plan, apply and destroy; environment approvals |
+| **Network access** | Public HTTPS ALB; ECS ingress restricted to ALB SG on port 8080 | Move tasks to private subnets with planned NAT/VPC endpoints |
+| **Availability** | ALB spans two AZs; ECS desired count of one task | Two or more tasks across AZs, autoscaling and tested failover |
+| **Release automation** | Image build/push and Terraform workflows | Bind published image to a new ECS task revision, verify stability and rollback |
+| **Observability** | CloudWatch Logs; `/health` endpoint and ALB target health checks | Alerts, latency/error metrics, dashboards, trace correlation and runbooks |
+| **Testing** | Local Go/Docker HTTP checks; ALB HTTPS validation; Terraform formatting/validation | Automated Go tests, integration/smoke tests, security gates and chaos/failure testing |
+| **Infrastructure review** | Pull-request Terraform formatting and validation without AWS credentials | Reviewed plan artifact, policy checks and protected deployment environments |
 
-**These are design improvements, not features I claim to have implemented.** The portfolio shows I can deliver a working service and also evaluate the controls needed for a more resilient production environment.
+These roadmap items are **not claimed as completed functionality**. They document how I would evolve this demonstrated architecture toward a continuously operated production service.
 
 ---
 
@@ -544,7 +568,7 @@ ALB and ECS service security groups successfully created.
 
 ### 23. IAM Terraform Plan
 
-IAM execution role, task role and policy attachment planned.
+ECS task execution role, task role and IAM permissions planned.
 
 ![Terraform IAM Plan](screenshots/24-terraform-plan-iam.png)
 
@@ -612,7 +636,7 @@ Terraform plan for GitHub's OIDC provider, IAM role and policy attachment.
 
 ### 34. OIDC Terraform Apply
 
-IAM role and OIDC trust configuration created for GitHub Actions.
+Historical IAM role and OIDC trust configuration created for GitHub Actions; the published Terraform code was subsequently hardened.
 
 ![Terraform OIDC Apply](screenshots/35-terraform-apply-oidc.png)
 
@@ -635,13 +659,13 @@ Successful application build and ECR publishing workflow.
 
 ### 37. Both Pipelines Passing
 
-Successful application build and Terraform Apply workflows.
+Historical successful application build and Terraform Apply workflows, before later permission and trigger changes.
 
 [View screenshot (featured above)](screenshots/37b-ci-cd-both-pipelines-green.png)
 
 ### 38. Terraform Apply Workflow
 
-Workflow steps showing checkout, OIDC authentication, Terraform setup, planning, applying and health checking.
+Historical Apply workflow steps showing checkout, OIDC authentication, Terraform setup, infrastructure changes and health checking.
 
 ![Terraform Apply Workflow](screenshots/38-ci-cd-terraform-apply-detail.png)
 
@@ -653,7 +677,7 @@ Multiple successful application build workflow runs.
 
 ### 40. Terraform Plan Workflow
 
-Pull request workflow validating and planning infrastructure changes.
+Historical pull-request workflow run from before the current split between credential-free PR validation and manual AWS planning.
 
 ![Terraform Plan Workflow](screenshots/41-ci-cd-terraform-plan.png)
 
@@ -670,7 +694,7 @@ Manually triggered Terraform destroy workflow with explicit confirmation.
 
 ### 42. draw.io Architecture Diagram
 
-A detailed architecture diagram showing the VPC, public subnets, ALB, ECS Fargate, ECR, ACM, IAM and CI/CD flow.
+Detailed draw.io architecture showing the VPC, public subnets, ALB, ECS Fargate, ECR, ACM, IAM and CI/CD flow.
 
 ![draw.io Architecture](screenshots/39b-architecture-drawio.png)
 
@@ -678,25 +702,24 @@ A detailed architecture diagram showing the VPC, public subnets, ALB, ECS Fargat
 
 ---
 
-## Engineering Outcomes & Interview Discussion
+## Engineering Outcomes & Technical Discussion
 
-This project brings together **Docker, AWS cloud infrastructure, eight modular Terraform components, GitHub Actions CI/CD, IAM/OIDC, DNS/HTTPS, health checks, CloudWatch logging, troubleshooting and cost management** in a single evidence-backed deployment journey.
+This project demonstrates the integration of **Go, Docker, AWS ECS, VPC networking, ALB/ACM/Cloudflare, eight Terraform modules, S3 remote state, GitHub Actions, OIDC/IAM and CloudWatch** into a working, verifiable engineering deployment.
 
-The strongest evidence is not any single screenshot. It is the sequence: **build and test a container → deploy it on AWS → configure HTTPS and health checks → reproduce the infrastructure as code → automate repeatable operations → investigate failures → tear down responsibly**.
+The strongest evidence is the sequence: **develop and test the service → containerise it → deploy it on AWS → configure HTTPS and health checks → rebuild infrastructure as code → automate CI/infrastructure operations → investigate failures → strengthen access controls → tear down responsibly**.
 
-**Project context:** Completed as part of my **CoderCo DevOps Engineering programme (January–October 2026)**. The work used real AWS services but was **not commercial production employment**. I have also completed an [Amazon EKS platform project](https://github.com/ismaaeelahmed11/eks-project) and a [self-managed Kubernetes kubeadm lab](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab).
+The AWS deployment, application health and historical workflow executions are independently evidenced. Later IAM and workflow changes are documented against the current code, with their redeployment requirements made explicit.
 
-### Related engineering projects
+**Project provenance:** Completed during the **CoderCo DevOps Engineering programme (January–October 2026)**. The project used real AWS services and professional engineering practices, but was a time-limited hands-on environment rather than commercial production ownership.
 
-- [AWS EKS — Kubernetes, Terraform, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
+### Related Engineering Projects
+
+- [Amazon EKS — Kubernetes, Terraform, GitOps & Monitoring](https://github.com/ismaaeelahmed11/eks-project)
 - [Self-Managed Kubernetes — kubeadm & Cluster Operations](https://github.com/ismaaeelahmed11/kubeadm-kubernetes-lab)
-- [DevOps Engineering Portfolio — Linux, Bash, AWS, Docker, Terraform, CI/CD & Kubernetes](https://github.com/ismaaeelahmed11/devops-learning)
+- [DevOps Learning — Linux, Bash, AWS, Docker, Terraform, CI/CD & Kubernetes](https://github.com/ismaaeelahmed11/devops-learning)
+- [GitHub Profile & Engineering Portfolio](https://github.com/ismaaeelahmed11)
 
 ---
 
-**Ismaaeel Ahmed** · DevOps & Cloud Engineering  
-[GitHub Portfolio](https://github.com/ismaaeelahmed11) · [LinkedIn](https://www.linkedin.com/in/ismaaeelahmed) · [Email](mailto:ismaaeelahmed11@gmail.com) · [Project walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)
----
-
-**Ismaaeel Ahmed — DevOps & Cloud Engineering**  
-[GitHub](https://github.com/ismaaeelahmed11) · [LinkedIn](https://www.linkedin.com/in/ismaaeelahmed) · [Project walkthrough](https://youtu.be/qpIZlJkWmos)
+**Ismaaeel Ahmed · DevOps Engineer**  
+[GitHub Portfolio](https://github.com/ismaaeelahmed11) · [LinkedIn](https://www.linkedin.com/in/ismaaeelahmed) · [Email](mailto:ismaaeelahmed11@gmail.com) · [Technical walkthrough (2:11)](https://youtu.be/qpIZlJkWmos)
